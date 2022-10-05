@@ -57,7 +57,7 @@ enableGitInfo = true
 [languages]
   [languages.en]
     languageName = "English"
-    title = "#!/rath/bun"
+    title = "#!/matt/rathbun"
     subtitle = "Matt Rathbun's Personal Blog"
     owner = "Matt Rathbun"
     keywords = ""
@@ -69,7 +69,7 @@ enableGitInfo = true
     missingBackButtonLabel = "Back to home page"
 
     [languages.en.params.logo]
-      logoText = "#!/rath/bun"
+      logoText = "#!/matt/rathbun"
       logoHomeLink = "/"
 
     [languages.en.menu]
