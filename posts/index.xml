@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
-    <lastBuildDate>Sat, 19 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 04 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Installing Nix and Home Manager in Arch Linux</title>
+      <link>/posts/nix-arch/</link>
+      <pubDate>Tue, 04 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/nix-arch/</guid>
+      <description>&lt;p&gt;Hi, I&amp;rsquo;m Matt and I&amp;rsquo;m one of those masochists who uses a chromebook as their personal development machine (not work though, I&amp;rsquo;m not &lt;em&gt;that&lt;/em&gt; crazy). A cool thing about Chrome OS&amp;rsquo;s Linux support is that you can swap the default, &lt;em&gt;boring&lt;/em&gt; Debian container for any LXC image. &lt;a href=&#34;https://wiki.archlinux.org/title/Chrome_OS_devices/Crostini&#34;&gt;Here&amp;rsquo;s an archwiki page on how to swap it to Arch!&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;A not-so-cool thing about that LXC setup is that there isn&amp;rsquo;t a NixOS LXC image available 😢. Instead, I set up an Arch Linux container with Nix and Home Manager. Best of both worlds I guess? Here&amp;rsquo;s how to do it.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Getting Dependabot and semantic-release to Play Nice</title>
       <link>/posts/semantic-release-dependabot/</link>

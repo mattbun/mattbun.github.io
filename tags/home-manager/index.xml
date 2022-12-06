@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>linux on #!/matt/rathbun</title>
-    <link>/tags/linux/</link>
-    <description>Recent content in linux on #!/matt/rathbun</description>
+    <title>home-manager on #!/matt/rathbun</title>
+    <link>/tags/home-manager/</link>
+    <description>Recent content in home-manager on #!/matt/rathbun</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
-    <lastBuildDate>Tue, 04 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 04 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/home-manager/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Installing Nix and Home Manager in Arch Linux</title>
       <link>/posts/nix-arch/</link>
@@ -16,16 +16,6 @@
       <guid>/posts/nix-arch/</guid>
       <description>&lt;p&gt;Hi, I&amp;rsquo;m Matt and I&amp;rsquo;m one of those masochists who uses a chromebook as their personal development machine (not work though, I&amp;rsquo;m not &lt;em&gt;that&lt;/em&gt; crazy). A cool thing about Chrome OS&amp;rsquo;s Linux support is that you can swap the default, &lt;em&gt;boring&lt;/em&gt; Debian container for any LXC image. &lt;a href=&#34;https://wiki.archlinux.org/title/Chrome_OS_devices/Crostini&#34;&gt;Here&amp;rsquo;s an archwiki page on how to swap it to Arch!&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;A not-so-cool thing about that LXC setup is that there isn&amp;rsquo;t a NixOS LXC image available 😢. Instead, I set up an Arch Linux container with Nix and Home Manager. Best of both worlds I guess? Here&amp;rsquo;s how to do it.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Saibamen Attack! Building a Raspberry Pi Cluster</title>
-      <link>/posts/rpi-k3s-cluster/</link>
-      <pubDate>Sun, 21 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/rpi-k3s-cluster/</guid>
-      <description>&lt;p&gt;Over the holidays I made a &lt;a href=&#34;https://k3s.io/&#34;&gt;k3s&lt;/a&gt; (that&amp;rsquo;s Kubernetes minus 5) cluster out of Raspberry Pis I had lying around. And while it&amp;rsquo;s &lt;em&gt;extremely&lt;/em&gt; cool, it&amp;rsquo;s also &lt;em&gt;pretty&lt;/em&gt; unstable.&lt;/p&gt;
-&lt;p&gt;In this post, I&amp;rsquo;ll outline what this new cluster looks like and go into detail on how I set it up. At the end, I&amp;rsquo;ll talk a little bit about why I won&amp;rsquo;t be entrusting it with my most important tasks just yet.&lt;/p&gt;</description>
     </item>
     
   </channel>
