@@ -14,16 +14,23 @@
 
 
 
-<link rel="stylesheet" href="/assets/style.css">
+
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/style.css">
 
 
 
 
 
 
-<link rel="apple-touch-icon" href="/img/apple-touch-icon-192x192.png">
 
-  <link rel="shortcut icon" href="/img/favicon/orange.png">
+  <link rel="shortcut icon" href="/img/theme-colors/orange.png">
+  <link rel="apple-touch-icon" href="/img/theme-colors/orange.png">
 
 
 
@@ -47,8 +54,8 @@
     <meta property="og:image" content="/img/favicon/orange.png">
   
 
-<meta property="og:image:width" content="2048">
-<meta property="og:image:height" content="1024">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
 
 
 
@@ -80,11 +87,39 @@
 </a>
 
     </div>
-    <div class="menu-trigger">menu</div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="/about">about me</a></li>
+        
+      
+        
+          <li><a href="/posts">posts</a></li>
+        
+      
+        
+          <li><a href="https://github.com/mattbun">github</a></li>
+        
+      
+        
+          <li><a href="https://linkedin.com/in/matthewrathbun">linkedin</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
   </div>
   
-    <nav class="menu">
-  <ul class="menu__inner menu__inner--desktop">
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
     
       
         
@@ -105,29 +140,6 @@
       
       
     
-
-    
-  </ul>
-
-  <ul class="menu__inner menu__inner--mobile">
-    
-      
-        <li><a href="/about">about me</a></li>
-      
-    
-      
-        <li><a href="/posts">posts</a></li>
-      
-    
-      
-        <li><a href="https://github.com/mattbun">github</a></li>
-      
-    
-      
-        <li><a href="https://linkedin.com/in/matthewrathbun">linkedin</a></li>
-      
-    
-    
   </ul>
 </nav>
 
@@ -140,16 +152,18 @@
   
   <div class="posts">
     
-      <div class="post on-list">
+      <article class="post on-list">
         <h1 class="post-title">
           <a href="/posts/rpi-cluster-removing-torrents/">Removing Old Torrents Using a Raspberry Pi Cluster</a>
         </h1>
         <div class="post-meta">
-          <span class="post-date">
-            2021-02-23
-          </span>
           
-            <span class="post-author">:: Matt Rathbun</span>
+            <time class="post-date">
+              2021-02-23 ::
+            </time>
+          
+          
+            <span class="post-author">Matt Rathbun</span>
           
         </div>
 
@@ -169,33 +183,33 @@
 
         
 
+
         <div class="post-content">
           
-          
-          <p>My new Raspberry Pi cluster is a little unstable and pretty limited since the nodes have just 1GB of memory. What the heck could I possibly use this for?</p>
+            <p>My new Raspberry Pi cluster is a little unstable and pretty limited since the nodes have just 1GB of memory. What the heck could I possibly use this for?</p>
 <p>Turns out it&rsquo;s great at running simple cron jobs. In this case, one that cleans up old torrents on a remote qbittorrent server.</p>
-          
           
         </div>
 
         
-        <div>
-          <a class="read-more button"
-            href="/posts/rpi-cluster-removing-torrents/">Read more →</a>
-        </div>
+          <div>
+            <a class="read-more button" href="/posts/rpi-cluster-removing-torrents/">Read more →</a>
+          </div>
         
-      </div>
+      </article>
     
-      <div class="post on-list">
+      <article class="post on-list">
         <h1 class="post-title">
           <a href="/posts/rpi-k3s-cluster/">Saibamen Attack! Building a Raspberry Pi Cluster</a>
         </h1>
         <div class="post-meta">
-          <span class="post-date">
-            2021-02-21
-          </span>
           
-            <span class="post-author">:: Matt Rathbun</span>
+            <time class="post-date">
+              2021-02-21 ::
+            </time>
+          
+          
+            <span class="post-author">Matt Rathbun</span>
           
         </div>
 
@@ -215,23 +229,22 @@
 
         
 
+
         <div class="post-content">
           
-          
-          <p>Over the holidays I made a <a href="https://k3s.io/">k3s</a> (that&rsquo;s Kubernetes minus 5) cluster out of Raspberry Pis I had lying around. And while it&rsquo;s <em>extremely</em> cool, it&rsquo;s also <em>pretty</em> unstable.</p>
+            <p>Over the holidays I made a <a href="https://k3s.io/">k3s</a> (that&rsquo;s Kubernetes minus 5) cluster out of Raspberry Pis I had lying around. And while it&rsquo;s <em>extremely</em> cool, it&rsquo;s also <em>pretty</em> unstable.</p>
 <p>In this post, I&rsquo;ll outline what this new cluster looks like and go into detail on how I set it up. At the end, I&rsquo;ll talk a little bit about why I won&rsquo;t be entrusting it with my most important tasks just yet.</p>
-          
           
         </div>
 
         
-        <div>
-          <a class="read-more button"
-            href="/posts/rpi-k3s-cluster/">Read more →</a>
-        </div>
+          <div>
+            <a class="read-more button" href="/posts/rpi-k3s-cluster/">Read more →</a>
+          </div>
         
-      </div>
+      </article>
     
+
     <div class="pagination">
   <div class="pagination__buttons">
     
@@ -255,10 +268,12 @@
   </div>
 </footer>
 
-<script src="/assets/main.js"></script>
-<script src="/assets/prism.js"></script>
 
 
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
 
 
 

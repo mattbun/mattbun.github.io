@@ -14,16 +14,23 @@
 
 
 
-<link rel="stylesheet" href="/assets/style.css">
+
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/style.css">
 
 
 
 
 
 
-<link rel="apple-touch-icon" href="/img/apple-touch-icon-192x192.png">
 
-  <link rel="shortcut icon" href="/img/favicon/orange.png">
+  <link rel="shortcut icon" href="/img/theme-colors/orange.png">
+  <link rel="apple-touch-icon" href="/img/theme-colors/orange.png">
 
 
 
@@ -47,8 +54,8 @@
     <meta property="og:image" content="/img/favicon/orange.png">
   
 
-<meta property="og:image:width" content="2048">
-<meta property="og:image:height" content="1024">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
 
 
 
@@ -80,11 +87,39 @@
 </a>
 
     </div>
-    <div class="menu-trigger">menu</div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="/about">about me</a></li>
+        
+      
+        
+          <li><a href="/posts">posts</a></li>
+        
+      
+        
+          <li><a href="https://github.com/mattbun">github</a></li>
+        
+      
+        
+          <li><a href="https://linkedin.com/in/matthewrathbun">linkedin</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
   </div>
   
-    <nav class="menu">
-  <ul class="menu__inner menu__inner--desktop">
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
     
       
         
@@ -105,29 +140,6 @@
       
       
     
-
-    
-  </ul>
-
-  <ul class="menu__inner menu__inner--mobile">
-    
-      
-        <li><a href="/about">about me</a></li>
-      
-    
-      
-        <li><a href="/posts">posts</a></li>
-      
-    
-      
-        <li><a href="https://github.com/mattbun">github</a></li>
-      
-    
-      
-        <li><a href="https://linkedin.com/in/matthewrathbun">linkedin</a></li>
-      
-    
-    
   </ul>
 </nav>
 
@@ -140,16 +152,18 @@
   
   <div class="posts">
     
-      <div class="post on-list">
+      <article class="post on-list">
         <h1 class="post-title">
           <a href="/posts/semantic-release-dependabot/">Getting Dependabot and semantic-release to Play Nice</a>
         </h1>
         <div class="post-meta">
-          <span class="post-date">
-            2021-06-19
-          </span>
           
-            <span class="post-author">:: Matt Rathbun</span>
+            <time class="post-date">
+              2021-06-19 ::
+            </time>
+          
+          
+            <span class="post-author">Matt Rathbun</span>
           
         </div>
 
@@ -165,24 +179,23 @@
 
         
 
+
         <div class="post-content">
           
-          
-          <p>The other day, GitHub sent me a notification that there were a couple security vulnerabilities in the dependencies of one of my personal projects, <a href="https://github.com/mattbun/castaway">castaway</a>. Having used Dependabot at work, I figured I&rsquo;d enable it and get that vulnerability taken care of.</p>
+            <p>The other day, GitHub sent me a notification that there were a couple security vulnerabilities in the dependencies of one of my personal projects, <a href="https://github.com/mattbun/castaway">castaway</a>. Having used Dependabot at work, I figured I&rsquo;d enable it and get that vulnerability taken care of.</p>
 <p>After I merged one of Dependabot&rsquo;s PRs, I was shocked (😱) to find that semantic-release hadn&rsquo;t made a release for it. Dependabot prefixed the commit with <code>build(deps):</code>, and semantic-release only creates releases for commits with prefixes <code>fix</code> and <code>feat</code>.</p>
 <p>What&rsquo;s the point of a security update if it doesn&rsquo;t actually build a new image? Looks like I&rsquo;ve got some work to do.</p>
-          
           
         </div>
 
         
-        <div>
-          <a class="read-more button"
-            href="/posts/semantic-release-dependabot/">Read more →</a>
-        </div>
+          <div>
+            <a class="read-more button" href="/posts/semantic-release-dependabot/">Read more →</a>
+          </div>
         
-      </div>
+      </article>
     
+
     <div class="pagination">
   <div class="pagination__buttons">
     
@@ -206,10 +219,12 @@
   </div>
 </footer>
 
-<script src="/assets/main.js"></script>
-<script src="/assets/prism.js"></script>
 
 
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
 
 
 
