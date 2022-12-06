@@ -6,4 +6,4 @@ title: "About Me"
 
 ### Hey there!
 
-I'm Matt Rathbun, a software engineer based out of Detroit. I mostly work on Node.js backends for a living, but at home I like to wrangle Linux servers, experiment with electronics, and probably spend a little _too_ much time tweaking my dotfiles.
+I'm Matt Rathbun, I work as a Site Reliability Engineer and I'm based out of Detroit. By day, I'm cleaning up metrics and creating dashboards. By night, I'm wrangling Linux servers, stumbling my way through writing nix expressions, and spending more time improving my nodejs-template than actually using it.
