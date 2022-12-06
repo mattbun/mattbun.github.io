@@ -8,11 +8,8 @@
     "develop": "hugo server -D",
     "new": "hugo new"
   },
-  "workspaces": [
-    "themes/terminal"
-  ],
   "dependencies": {},
   "devDependencies": {
-    "hugo-bin": "^0.63.1"
+    "hugo-extended": "^0.107.0"
   }
 }
