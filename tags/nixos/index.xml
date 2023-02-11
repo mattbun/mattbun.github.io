@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nixos on #!/matt/rathbun</title>
+    <link>/tags/nixos/</link>
+    <description>Recent content in nixos on #!/matt/rathbun</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
+    <lastBuildDate>Mon, 05 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/nixos/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Introducing Nappa and the Next Iteration of My k3s Cluster</title>
+      <link>/posts/nappa-intro/</link>
+      <pubDate>Mon, 05 Dec 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/nappa-intro/</guid>
+      <description>&lt;p&gt;It&amp;rsquo;s been almost two years since I built my &lt;a href=&#34;/posts/rpi-k3s-cluster&#34;&gt;first Raspberry Pi-powered k3s cluster&lt;/a&gt;. A lot&amp;rsquo;s changed! There&amp;rsquo;s a new node in the cluster and I&amp;rsquo;ve gone off the deep end switching everything to NixOS. In this post, I&amp;rsquo;ll talk about the new node and some of the nix options that enable it.&lt;/p&gt;</description>
+      <content>&lt;p&gt;It&amp;rsquo;s been almost two years since I built my &lt;a href=&#34;/posts/rpi-k3s-cluster&#34;&gt;first Raspberry Pi-powered k3s cluster&lt;/a&gt;. A lot&amp;rsquo;s changed! There&amp;rsquo;s a new node in the cluster and I&amp;rsquo;ve gone off the deep end switching everything to NixOS. In this post, I&amp;rsquo;ll talk about the new node and some of the nix options that enable it.&lt;/p&gt;
+&lt;h1 id=&#34;nappa-the-control-plane&#34;&gt;Nappa&amp;hellip; the Control Plane?&lt;/h1&gt;
+&lt;p&gt;The new addition to the cluster is &lt;code&gt;nappa&lt;/code&gt;, an x86 NUC that now runs the control plane. Its extra processing power fixes the stability issues I had when the cluster was all Raspberry Pis. It also serves as network gateway (it has two ethernet ports!) and NFS server (for persistent volume storage) for the rest of the cluster. The new diagram looks like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;nappa-diagram.png&#34; alt=&#34;nappa cluster network setup&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Ok and I also splurged on some new Raspberry Pis 💰. &lt;code&gt;saibaman1&lt;/code&gt; and &lt;code&gt;saibaman2&lt;/code&gt; are now Raspberry Pi 4s with 8GB of memory. More memory, more containers!&lt;/p&gt;
+&lt;h1 id=&#34;setting-up-a-network-gateway-in-nixos&#34;&gt;Setting up a Network Gateway in NixOS&lt;/h1&gt;
+&lt;p&gt;&lt;code&gt;nappa&lt;/code&gt; runs NixOS, which makes it really simple to set up &lt;a href=&#34;https://thekelleys.org.uk/dnsmasq/doc.html&#34;&gt;dnsmasq&lt;/a&gt;. In the config below, I set up a subnet at 192.168.2.x, but only on the ethernet port connected to the Raspberry Pis:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-nix&#34; data-lang=&#34;nix&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;services&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;dnsmasq &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  enable &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  extraConfig &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    interface=enp4s0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    dhcp-range=192.168.2.10,192.168.2.250,255.255.255.0,12h
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#39;&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Next, I set up an iptables rule to allow the Raspberry Pis to reach out to the outside network. You can see it in the &lt;code&gt;networking.firewall.extraCommands&lt;/code&gt; option below:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-nix&#34; data-lang=&#34;nix&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;networking&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;firewall &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  enable &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  extraCommands &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    iptables -t nat -A POSTROUTING -o eno1 -j MASQUERADE
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#39;&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  trustedInterfaces &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [ &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;eno1&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;enp4s0&amp;#34;&lt;/span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  allowedTCPPortRanges &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [{ from &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; to &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;65535&lt;/span&gt;; }];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  allowedUDPPortRanges &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [{ from &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; to &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;65535&lt;/span&gt;; }];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;em&gt;Wait&lt;/em&gt;, am I enabling a firewall just to configure it to open all ports? Yep! Enabling the firewall is a requirement for iptables, but I&amp;rsquo;m opening up all of the ports so it doesn&amp;rsquo;t get in the way of anything I&amp;rsquo;m working on.&lt;/p&gt;
+&lt;h1 id=&#34;k3s-in-nixos&#34;&gt;k3s in NixOS&lt;/h1&gt;
+&lt;p&gt;Enabling k3s is another simple NixOS config option:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-nix&#34; data-lang=&#34;nix&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;services&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;k3s &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  enable &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  role &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;server&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  extraFlags &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;--advertise-address=192.168.2.1 --node-ip=192.168.2.1 --node-external-ip=192.168.1.4 --flannel-backend=host-gw --flannel-iface=enp4s0&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Phew, that&amp;rsquo;s a lot of &lt;code&gt;extraFlags&lt;/code&gt;. They&amp;rsquo;re all needed due to &lt;code&gt;nappa&lt;/code&gt;&amp;rsquo;s weird networking setup. Note that k3s has flannel built in. NixOS&amp;rsquo;s &lt;code&gt;service.flannel&lt;/code&gt; option won&amp;rsquo;t do anything here. Speaking of which&amp;hellip;&lt;/p&gt;
+&lt;h2 id=&#34;flannel-f-ups&#34;&gt;Flannel F***-ups&lt;/h2&gt;
+&lt;p&gt;After first setting up this cluster, everything seemed fine but there was some sort of networking issue. HTTP requests sent to services backed by pods running on Raspberry Pi nodes would time out, but they&amp;rsquo;d be fine if the pods were running on &lt;code&gt;nappa&lt;/code&gt;. I initially pointed the blame at the Raspberry Pis, poring through logs and configuration to try to figure out what was happening. But the problem was actually with &lt;code&gt;nappa&lt;/code&gt;, which needed an additional flannel option passed to k3s:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;--flannel-iface&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;enp4s0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;That tells flannel to use the same ethernet port that the Raspberry Pis are connected to. All better!&lt;/p&gt;
+&lt;h1 id=&#34;thats-it-for-now&#34;&gt;That&amp;rsquo;s it for now!&lt;/h1&gt;
+&lt;p&gt;The full configuration for &lt;code&gt;nappa&lt;/code&gt; (and the rest of the cluster) can be found &lt;a href=&#34;https://github.com/mattbun/nappa&#34;&gt;here&lt;/a&gt;. In my next post, I&amp;rsquo;ll go through the changes I&amp;rsquo;ve made to the Raspberry Pis. Spoiler alert: they&amp;rsquo;re also on NixOS!&lt;/p&gt;</content>
+    </item>
+    
+  </channel>
+</rss>

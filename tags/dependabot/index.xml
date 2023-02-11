@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>dependabot on #!/matt/rathbun</title>
+    <link>/tags/dependabot/</link>
+    <description>Recent content in dependabot on #!/matt/rathbun</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
+    <lastBuildDate>Sat, 19 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/dependabot/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Getting Dependabot and semantic-release to Play Nice</title>
+      <link>/posts/semantic-release-dependabot/</link>
+      <pubDate>Sat, 19 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/semantic-release-dependabot/</guid>
+      <description>&lt;p&gt;The other day, GitHub sent me a notification that there were a couple security vulnerabilities in the dependencies of one of my personal projects, &lt;a href=&#34;https://github.com/mattbun/castaway&#34;&gt;castaway&lt;/a&gt;. Having used Dependabot at work, I figured I&amp;rsquo;d enable it and get that vulnerability taken care of.&lt;/p&gt;
+&lt;p&gt;After I merged one of Dependabot&amp;rsquo;s PRs, I was shocked (😱) to find that semantic-release hadn&amp;rsquo;t made a release for it. Dependabot prefixed the commit with &lt;code&gt;build(deps):&lt;/code&gt;, and semantic-release only creates releases for commits with prefixes &lt;code&gt;fix&lt;/code&gt; and &lt;code&gt;feat&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;What&amp;rsquo;s the point of a security update if it doesn&amp;rsquo;t actually build a new image? Looks like I&amp;rsquo;ve got some work to do.&lt;/p&gt;</description>
+      <content>&lt;p&gt;The other day, GitHub sent me a notification that there were a couple security vulnerabilities in the dependencies of one of my personal projects, &lt;a href=&#34;https://github.com/mattbun/castaway&#34;&gt;castaway&lt;/a&gt;. Having used Dependabot at work, I figured I&amp;rsquo;d enable it and get that vulnerability taken care of.&lt;/p&gt;
+&lt;p&gt;After I merged one of Dependabot&amp;rsquo;s PRs, I was shocked (😱) to find that semantic-release hadn&amp;rsquo;t made a release for it. Dependabot prefixed the commit with &lt;code&gt;build(deps):&lt;/code&gt;, and semantic-release only creates releases for commits with prefixes &lt;code&gt;fix&lt;/code&gt; and &lt;code&gt;feat&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;What&amp;rsquo;s the point of a security update if it doesn&amp;rsquo;t actually build a new image? Looks like I&amp;rsquo;ve got some work to do.&lt;/p&gt;
+&lt;h1 id=&#34;approach-1---change-dependabot-commit-messages&#34;&gt;Approach #1 - Change Dependabot Commit Messages&lt;/h1&gt;
+&lt;p&gt;You can change Dependabot&amp;rsquo;s commit messages! And not only that, you can change the commit prefix depending on whether its a dev or production dependency.&lt;/p&gt;
+&lt;p&gt;I configured dependabot to use the commit prefix &lt;code&gt;fix(deps)&lt;/code&gt; for production dependencies with the following in &lt;code&gt;.github/dependabot.yml&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;version&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;updates&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  - &lt;span style=&#34;color:#f92672&#34;&gt;package-ecosystem&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;npm&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;directory&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;schedule&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;interval&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;daily&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;commit-message&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;prefix&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fix&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;prefix-development&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;build&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;include&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;scope&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;allow&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      - &lt;span style=&#34;color:#f92672&#34;&gt;dependency-type&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;production&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This works! semantic-release bumps the patch version and triggers a new build when production dependencies are updated. Dev dependencies are still prefixed with &lt;code&gt;build&lt;/code&gt;, which semantic-release ignores.&lt;/p&gt;
+&lt;h2 id=&#34;but-theres-a-catch&#34;&gt;But there&amp;rsquo;s a catch!&lt;/h2&gt;
+&lt;p&gt;Dependabot comes in a couple different flavors:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;GitHub Dependabot - this is enabled by having a &lt;code&gt;.github/dependabot.yml&lt;/code&gt; file in your repository&lt;/li&gt;
+&lt;li&gt;GitHub Dependabot Security Updates - this is enabled in your repository&amp;rsquo;s &amp;ldquo;Security &amp;amp; Analysis&amp;rdquo; section&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The dependabot configuration from above only affects the first one. Security updates &lt;a href=&#34;https://github.community/t/how-to-get-dependabot-to-trigger-for-security-updates-only/117257/5&#34;&gt;cannot be configured&lt;/a&gt;. This also means that the configuration from above will enable &lt;em&gt;all&lt;/em&gt; dependency updates, not just the ones with vulnerabilities.&lt;/p&gt;
+&lt;p&gt;Now this is probably fine for plenty of projects. Keeping dependencies up-to-date is noble. If you&amp;rsquo;re fine with that, you&amp;rsquo;re done! No need to read the next section.&lt;/p&gt;
+&lt;p&gt;But the project I&amp;rsquo;m adding this to isn&amp;rsquo;t worth all that hassle. I&amp;rsquo;m fine with making some security updates here and there, but I don&amp;rsquo;t want to spend all of my time updating dependencies unnecessarily.&lt;/p&gt;
+&lt;p&gt;I guess I have to give up the ability to configure Dependabot to get what I want 🤦.&lt;/p&gt;
+&lt;h1 id=&#34;approach-2---configure-semantic-release-to-understand-dependabot-commits&#34;&gt;Approach #2 - Configure semantic-release to Understand Dependabot Commits&lt;/h1&gt;
+&lt;p&gt;We can&amp;rsquo;t change how Dependabot Security Updates works, so we&amp;rsquo;ll have to work with its default commit format: &lt;code&gt;build(deps)&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;commit-analyzer-changes&#34;&gt;commit-analyzer Changes&lt;/h2&gt;
+&lt;p&gt;First, we&amp;rsquo;ll need to configure semantic-release to see dependabot commits as &amp;ldquo;patch&amp;rdquo;-worthy updates. That can be done by adding a &lt;code&gt;releaseRule&lt;/code&gt; to the commit-analyzer configuration, like the following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;release&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;plugins&amp;#34;&lt;/span&gt;: [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;@semantic-release/commit-analyzer&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;preset&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;conventionalcommits&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;releaseRules&amp;#34;&lt;/span&gt;: [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;build&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;scope&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;deps&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;release&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;patch&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        ]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  ]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note that dev dependencies use a different scope, &lt;code&gt;deps-dev&lt;/code&gt;, so those updates will continue to be ignored by semantic-release.&lt;/p&gt;
+&lt;h2 id=&#34;release-notes-generator-changes&#34;&gt;release-notes-generator Changes&lt;/h2&gt;
+&lt;p&gt;With just the commit-analyzer changes above, Dependabot updates will create releases, but the release notes in the GitHub release will be blank. That&amp;rsquo;s not particularly helpful. To fix that, we&amp;rsquo;ll need to make some configuration changes to semantic-release&amp;rsquo;s release-notes-generator.&lt;/p&gt;
+&lt;p&gt;First off, you&amp;rsquo;ll need to add &lt;a href=&#34;https://www.npmjs.com/package/conventional-changelog-conventionalcommits&#34;&gt;conventional-changelog-conventionalcommits&lt;/a&gt; to your dev dependencies, if you don&amp;rsquo;t already have it:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;yarn add -D conventional-changelog-conventionalcommits
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then configure the &lt;code&gt;release-notes-generator&lt;/code&gt; plugin like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;release&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;plugins&amp;#34;&lt;/span&gt;: [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;@semantic-release/release-notes-generator&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;preset&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;conventionalcommits&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;presetConfig&amp;#34;&lt;/span&gt;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;types&amp;#34;&lt;/span&gt;: [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;feat&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;section&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Features&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            },
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fix&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;section&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Bug Fixes&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            },
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;build&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;section&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Dependencies and Other Build Updates&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;hidden&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          ]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  ]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This puts any &lt;code&gt;build&lt;/code&gt; commits in a new &amp;ldquo;Dependencies and Other Build Updates&amp;rdquo; section. That &lt;code&gt;&amp;quot;hidden&amp;quot;: false&lt;/code&gt; is important! If you don&amp;rsquo;t include it, it&amp;rsquo;ll default to &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Note that this change will put other &lt;code&gt;build&lt;/code&gt; commits in your changelog as well, though they may not trigger a release on their own.&lt;/p&gt;
+&lt;h3 id=&#34;do-i-have-to-use-the-conventionalcommits-preset&#34;&gt;Do I have to use the conventionalcommits preset?&lt;/h3&gt;
+&lt;p&gt;I can&amp;rsquo;t speak for the other presets, but &lt;code&gt;angular&lt;/code&gt; doesn&amp;rsquo;t support this as far as I can tell. The &lt;code&gt;conventionalcommits&lt;/code&gt; preset has an &lt;a href=&#34;https://github.com/conventional-changelog/conventional-changelog-config-spec/blob/master/versions/2.1.0/README.md&#34;&gt;extensive configuration spec&lt;/a&gt; while &lt;a href=&#34;https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular#readme&#34;&gt;the angular one doesn&amp;rsquo;t seem to have any options?&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;can-i-see-all-these-changes-in-one-place&#34;&gt;Can I see all these changes in one place?&lt;/h2&gt;
+&lt;p&gt;Yep, &lt;a href=&#34;https://github.com/mattbun/castaway/blob/bc4595ff2f52bf2f7d8b929f3c386f07472b2342/package.json#L36&#34;&gt;see it in action here&lt;/a&gt;&lt;/p&gt;</content>
+    </item>
+    
+  </channel>
+</rss>

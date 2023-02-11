@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>github-pages on #!/matt/rathbun</title>
+    <link>/tags/github-pages/</link>
+    <description>Recent content in github-pages on #!/matt/rathbun</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
+    <lastBuildDate>Sun, 02 Aug 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/github-pages/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How I Made This Website</title>
+      <link>/posts/how-i-made-this-website/</link>
+      <pubDate>Sun, 02 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/how-i-made-this-website/</guid>
+      <description>&lt;p&gt;Hey look I have a fancy new website! 🦄🤖🚀&lt;/p&gt;
+&lt;p&gt;What you&amp;rsquo;re reading right now was built and deployed using:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.gatsbyjs.org/&#34;&gt;Gatsby&lt;/a&gt; - A static site generator&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://pages.github.com/&#34;&gt;GitHub Pages&lt;/a&gt; - Host sites from a git repository&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/features/actions&#34;&gt;GitHub Actions&lt;/a&gt; - Automate rebuilding the website whenever changes are pushed to master&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;There are plenty of resources out there explaining how to set up a website like this, but I figured it&amp;rsquo;d be nice to gather it into one how-to. I&amp;rsquo;m sure it&amp;rsquo;ll be &lt;em&gt;real&lt;/em&gt; helpful when I forget how this all works in a few months 😅.&lt;/p&gt;</description>
+      <content>&lt;p&gt;Hey look I have a fancy new website! 🦄🤖🚀&lt;/p&gt;
+&lt;p&gt;What you&amp;rsquo;re reading right now was built and deployed using:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.gatsbyjs.org/&#34;&gt;Gatsby&lt;/a&gt; - A static site generator&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://pages.github.com/&#34;&gt;GitHub Pages&lt;/a&gt; - Host sites from a git repository&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/features/actions&#34;&gt;GitHub Actions&lt;/a&gt; - Automate rebuilding the website whenever changes are pushed to master&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;There are plenty of resources out there explaining how to set up a website like this, but I figured it&amp;rsquo;d be nice to gather it into one how-to. I&amp;rsquo;m sure it&amp;rsquo;ll be &lt;em&gt;real&lt;/em&gt; helpful when I forget how this all works in a few months 😅.&lt;/p&gt;
+&lt;h3 id=&#34;step-1-initialize-a-new-gatsby-site&#34;&gt;Step 1: Initialize a New Gatsby Site&lt;/h3&gt;
+&lt;p&gt;It&amp;rsquo;s super easy to get started with &lt;a href=&#34;https://www.gatsbyjs.org/&#34;&gt;Gatsby&lt;/a&gt;. Honestly, the hardest part about it was figuring out a theme or starter to use.&lt;/p&gt;
+&lt;p&gt;At first I really liked &lt;a href=&#34;https://github.com/alxshelepenok/gatsby-starter-lumen&#34;&gt;this one&lt;/a&gt;, but the file structure of it started to rub me the wrong way. There&amp;rsquo;s a lot code in there, how do I update it if the starter gets updated? Do I fork it? Am I going to have deal with merge conflicts?&lt;/p&gt;
+&lt;p&gt;I switched to &lt;a href=&#34;https://github.com/LekoArts/gatsby-themes/tree/master/themes/gatsby-theme-minimal-blog&#34;&gt;this theme&lt;/a&gt;. It&amp;rsquo;s nice and simple. The only things in my repo are content (if I had any) and site settings. Getting updates from upstream is just a matter of updating the npm package:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;dependencies&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;@lekoarts/gatsby-theme-minimal-blog&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;^2.4.0&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;step-2-create-a-repository-on-github&#34;&gt;Step 2: Create a Repository on GitHub&lt;/h3&gt;
+&lt;p&gt;Create a new repository on GitHub and push your new gatsby site to it. If you want GitHub Pages to host your website at &lt;code&gt;&amp;lt;your-username&amp;gt;.github.io&lt;/code&gt;, you &lt;strong&gt;must&lt;/strong&gt; name the repo &lt;code&gt;&amp;lt;your-username&amp;gt;.github.io&lt;/code&gt;. For example, the repo for this website is named &lt;a href=&#34;https://github.com/mattbun/mattbun.github.io&#34;&gt;&lt;code&gt;mattbun.github.io&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;step-3-set-up-github-actions&#34;&gt;Step 3: Set Up GitHub Actions&lt;/h3&gt;
+&lt;p&gt;So now the code is on GitHub. But wait, doesn&amp;rsquo;t this repo &lt;em&gt;only&lt;/em&gt; have markdown? How do we compile it and get it deployed?&lt;/p&gt;
+&lt;p&gt;That&amp;rsquo;s where GitHub Actions comes in. We&amp;rsquo;ll use it to automatically build the site and push the compiled site to a &lt;code&gt;gh-pages&lt;/code&gt; branch whenever the &lt;code&gt;master&lt;/code&gt; branch is pushed to.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/marketplace/actions/gatsby-publish&#34;&gt;Someone already made an action to do this&lt;/a&gt;, so all you need is this in &lt;code&gt;.github/workflows&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml:title=.github/workflows/publish.yml&#34; data-lang=&#34;yaml:title=.github/workflows/publish.yml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;Gatsby Publish&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;on&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;push&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;branches&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      - &lt;span style=&#34;color:#ae81ff&#34;&gt;master&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;jobs&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;build&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;runs-on&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;ubuntu-latest&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;steps&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      - &lt;span style=&#34;color:#f92672&#34;&gt;uses&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;actions/checkout@v1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      - &lt;span style=&#34;color:#f92672&#34;&gt;uses&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;enriikke/gatsby-gh-pages-action@v2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#f92672&#34;&gt;with&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#f92672&#34;&gt;access-token&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;${{ secrets.ACCESS_TOKEN }}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#f92672&#34;&gt;deploy-branch&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;gh-pages&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Before you go and push this change, note that it requires a secret named &lt;code&gt;ACCESS_TOKEN&lt;/code&gt;. It needs that token to push changes to your repo.&lt;/p&gt;
+&lt;p&gt;You&amp;rsquo;ll need to generate a personal access token with &lt;code&gt;repo&lt;/code&gt; scope. See &lt;a href=&#34;https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token&#34;&gt;here&lt;/a&gt; for instructions on how to do that. Copy the token, open your repository&amp;rsquo;s settings, go to the &amp;ldquo;Secrets&amp;rdquo; tab, and create a new secret named &lt;code&gt;ACCESS_TOKEN&lt;/code&gt; with the token you copied.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;screenshot_secret.png&#34; alt=&#34;Adding GitHub secret&#34;&gt;&lt;/p&gt;
+&lt;p&gt;With the secret in place, go ahead and push those changes. Go to the &amp;ldquo;Actions&amp;rdquo; tab in GitHub and you can watch the build in action. Assuming it completes successfully, you&amp;rsquo;ll find there&amp;rsquo;s a new &lt;code&gt;gh-pages&lt;/code&gt; branch with your compiled website (&lt;a href=&#34;https://github.com/mattbun/mattbun.github.io/tree/gh-pages&#34;&gt;like this&lt;/a&gt;). We&amp;rsquo;re almost there!&lt;/p&gt;
+&lt;h3 id=&#34;step-4-enable-github-pages&#34;&gt;Step 4: Enable GitHub Pages&lt;/h3&gt;
+&lt;p&gt;Now you just need to &lt;a href=&#34;https://docs.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site&#34;&gt;enable Github Pages&lt;/a&gt; on this repository. Click the Settings tab and scroll all the way down to the &amp;ldquo;GitHub Pages&amp;rdquo; section. Choose your new &lt;code&gt;gh-pages&lt;/code&gt; branch and hit save!&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;screenshot_pages.png&#34; alt=&#34;Enabling GitHub Pages&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;step-5-try-it-out&#34;&gt;Step 5: Try it Out!&lt;/h3&gt;
+&lt;p&gt;That should be it! Open up your website at &lt;code&gt;&amp;lt;username&amp;gt;-github.io&lt;/code&gt; and it should be up and running! 🎉💃&lt;/p&gt;
+&lt;h3 id=&#34;bonus-using-a-custom-domain&#34;&gt;Bonus: Using a Custom Domain&lt;/h3&gt;
+&lt;p&gt;In addition to &lt;a href=&#34;https://mattbun.github.io&#34;&gt;mattbun.github.io&lt;/a&gt;, I updated my domain &lt;a href=&#34;https://rathbun.dev&#34;&gt;rathbun.dev&lt;/a&gt; to point to it as well. &lt;a href=&#34;https://docs.github.com/en/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site#configuring-an-apex-domain&#34;&gt;These instructions&lt;/a&gt; show you how to do it. My domain is registered through Google Domains and my DNS settings there look something like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;screenshot_dns.png&#34; alt=&#34;Configuring DNS in Google Domains&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Be sure to put your domain name in a file named &lt;code&gt;CNAME&lt;/code&gt; in the root directory on your master branch. GitHub will try to add it to your &lt;code&gt;gh-pages&lt;/code&gt; branch but the Gatsby Publish action will overwrite it. If you put it in master, the action &lt;a href=&#34;https://github.com/marketplace/actions/gatsby-publish#cname&#34;&gt;will copy the file over when it deploys&lt;/a&gt;.&lt;/p&gt;</content>
+    </item>
+    
+  </channel>
+</rss>

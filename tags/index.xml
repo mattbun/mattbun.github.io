@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on #!/matt/rathbun</title>
+    <link>/tags/</link>
+    <description>Recent content in Tags on #!/matt/rathbun</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
+    <lastBuildDate>Mon, 05 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>fluxcd</title>
+      <link>/tags/fluxcd/</link>
+      <pubDate>Mon, 05 Dec 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/fluxcd/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>k3s</title>
+      <link>/tags/k3s/</link>
+      <pubDate>Mon, 05 Dec 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/k3s/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>kubernetes</title>
+      <link>/tags/kubernetes/</link>
+      <pubDate>Mon, 05 Dec 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/kubernetes/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>nappa</title>
+      <link>/tags/nappa/</link>
+      <pubDate>Mon, 05 Dec 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/nappa/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>nix</title>
+      <link>/tags/nix/</link>
+      <pubDate>Mon, 05 Dec 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/nix/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>nixos</title>
+      <link>/tags/nixos/</link>
+      <pubDate>Mon, 05 Dec 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/nixos/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>arch</title>
+      <link>/tags/arch/</link>
+      <pubDate>Tue, 04 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/arch/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>home-manager</title>
+      <link>/tags/home-manager/</link>
+      <pubDate>Tue, 04 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/home-manager/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>linux</title>
+      <link>/tags/linux/</link>
+      <pubDate>Tue, 04 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/linux/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>dependabot</title>
+      <link>/tags/dependabot/</link>
+      <pubDate>Sat, 19 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/dependabot/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>semantic-release</title>
+      <link>/tags/semantic-release/</link>
+      <pubDate>Sat, 19 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/semantic-release/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>docker</title>
+      <link>/tags/docker/</link>
+      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/docker/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>nodejs</title>
+      <link>/tags/nodejs/</link>
+      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/nodejs/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>raspberrypi</title>
+      <link>/tags/raspberrypi/</link>
+      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/raspberrypi/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>github-actions</title>
+      <link>/tags/github-actions/</link>
+      <pubDate>Sat, 03 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/github-actions/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>hugo</title>
+      <link>/tags/hugo/</link>
+      <pubDate>Sat, 03 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/hugo/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>ssg</title>
+      <link>/tags/ssg/</link>
+      <pubDate>Sat, 03 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/ssg/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>gatsby</title>
+      <link>/tags/gatsby/</link>
+      <pubDate>Sun, 02 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/gatsby/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>github-pages</title>
+      <link>/tags/github-pages/</link>
+      <pubDate>Sun, 02 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/github-pages/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+  </channel>
+</rss>
