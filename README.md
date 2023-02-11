@@ -41,3 +41,9 @@ make build
 git submodule init
 git submodule update
 ```
+
+## Updating the theme
+
+```shell
+git submodule update --remote
+```
