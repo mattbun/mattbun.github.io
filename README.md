@@ -2,15 +2,33 @@
 
 ## Getting Started
 
-Clone this repository and then run
+Clone this repository with submodules
 
 ```shell
-yarn install
-yarn develop
+git clone git@github.com:mattbun/mattbun.github.io.git --recurse-submodules
+```
+
+Then to build and start serving the site locally
+
+```shell
+make
 ```
 
 ## Creating a post
 
 ```shell
-yarn new posts/2020-12-25-some-really-cool-slug
+make new
+```
+
+## Building the site (without serving it)
+
+```shell
+make build
+```
+
+## Oops I forgot about the submodules when cloning!
+
+```shell
+git submodule init
+git submodule update
 ```
