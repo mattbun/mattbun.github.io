@@ -2,3 +2,4 @@ node_modules
 .direnv
 .hugo_build.lock
 resources
+public
