@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>nix on #!/matt/rathbun</title>
-    <link>/tags/nix/</link>
-    <description>Recent content in nix on #!/matt/rathbun</description>
+    <title>fluxcd on #!/matt/rathbun</title>
+    <link>/tags/fluxcd/</link>
+    <description>Recent content in fluxcd on #!/matt/rathbun</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
-    <lastBuildDate>Mon, 05 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/nix/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 05 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/fluxcd/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introducing Nappa and the Next Iteration of My k3s Cluster</title>
       <link>/posts/nappa-intro/</link>
@@ -54,63 +54,6 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;That tells flannel to use the same ethernet port that the Raspberry Pis are connected to. All better!&lt;/p&gt;
 &lt;h1 id=&#34;thats-it-for-now&#34;&gt;That&amp;rsquo;s it for now!&lt;/h1&gt;
 &lt;p&gt;The full configuration for &lt;code&gt;nappa&lt;/code&gt; (and the rest of the cluster) can be found &lt;a href=&#34;https://github.com/mattbun/nappa&#34;&gt;here&lt;/a&gt;. In my next post, I&amp;rsquo;ll go through the changes I&amp;rsquo;ve made to the Raspberry Pis. Spoiler alert: they&amp;rsquo;re also on NixOS!&lt;/p&gt;</content>
-    </item>
-    
-    <item>
-      <title>Installing Nix and Home Manager in Arch Linux</title>
-      <link>/posts/nix-arch/</link>
-      <pubDate>Tue, 04 Oct 2022 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/nix-arch/</guid>
-      <description>&lt;p&gt;Hi, I&amp;rsquo;m Matt and I&amp;rsquo;m one of those masochists who uses a chromebook as their personal development machine (not work though, I&amp;rsquo;m not &lt;em&gt;that&lt;/em&gt; crazy). A cool thing about Chrome OS&amp;rsquo;s Linux support is that you can swap the default, &lt;em&gt;boring&lt;/em&gt; Debian container for any LXC image. &lt;a href=&#34;https://wiki.archlinux.org/title/Chrome_OS_devices/Crostini&#34;&gt;Here&amp;rsquo;s an archwiki page on how to swap it to Arch!&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;A not-so-cool thing about that LXC setup is that there isn&amp;rsquo;t a NixOS LXC image available 😢. Instead, I set up an Arch Linux container with Nix and Home Manager. Best of both worlds I guess? Here&amp;rsquo;s how to do it.&lt;/p&gt;</description>
-      <content>&lt;p&gt;Hi, I&amp;rsquo;m Matt and I&amp;rsquo;m one of those masochists who uses a chromebook as their personal development machine (not work though, I&amp;rsquo;m not &lt;em&gt;that&lt;/em&gt; crazy). A cool thing about Chrome OS&amp;rsquo;s Linux support is that you can swap the default, &lt;em&gt;boring&lt;/em&gt; Debian container for any LXC image. &lt;a href=&#34;https://wiki.archlinux.org/title/Chrome_OS_devices/Crostini&#34;&gt;Here&amp;rsquo;s an archwiki page on how to swap it to Arch!&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;A not-so-cool thing about that LXC setup is that there isn&amp;rsquo;t a NixOS LXC image available 😢. Instead, I set up an Arch Linux container with Nix and Home Manager. Best of both worlds I guess? Here&amp;rsquo;s how to do it.&lt;/p&gt;
-&lt;h1 id=&#34;what-were-setting-up&#34;&gt;What we&amp;rsquo;re setting up&lt;/h1&gt;
-&lt;p&gt;In these instructions, I&amp;rsquo;ll be setting up &lt;code&gt;nix&lt;/code&gt; and &lt;code&gt;home-manager&lt;/code&gt;. This setup doesn&amp;rsquo;t let you configure system-level things in nix like in NixOS, but you &lt;em&gt;can&lt;/em&gt; configure things for your user using &lt;code&gt;home-manager&lt;/code&gt;. If you set up &lt;a href=&#34;https://github.com/nix-community/nix-direnv&#34;&gt;nix-direnv&lt;/a&gt; in your home-manager config, you can add nix configurations for specific directories.&lt;/p&gt;
-&lt;p&gt;This should work for any Arch Linux install, not just my weird LXC image.&lt;/p&gt;
-&lt;h1 id=&#34;lets-go&#34;&gt;Let&amp;rsquo;s go!&lt;/h1&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Install nix&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo pacman -S nix
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Enable and start &lt;code&gt;nix-daemon&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo systemctl enable nix-daemon
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo systemctl start nix-daemon
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Add your user to the &lt;code&gt;nix-users&lt;/code&gt; group&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo gpasswd -a &amp;lt;user&amp;gt; nix-users
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Log out and back in again for the group change to take effect&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Add &lt;code&gt;nixpkgs&lt;/code&gt; and &lt;code&gt;home-manager&lt;/code&gt; channels&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nix-channel --add https://nixos.org/channels/nixpkgs-unstable
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nix-channel --update
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Install home-manager&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;export NIX_PATH&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;NIX_PATH:+:$NIX_PATH&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nix-shell &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;lt;home-manager&amp;gt;&amp;#39;&lt;/span&gt; -A install
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Take a look at &lt;code&gt;~/.config/nixpkgs/home.nix&lt;/code&gt;, make any desired changes, then run&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;home-manager switch
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;And that should be it! Enjoy!&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;nix-arch-cowsay.png&#34; alt=&#34;A nix shell running &amp;amp;lsquo;cat /etc/os-release | cowsay&amp;amp;rsquo;&#34;&gt;&lt;/p&gt;
-&lt;h1 id=&#34;for-more-info&#34;&gt;For more info&amp;hellip;&lt;/h1&gt;
-&lt;p&gt;These instructions are basically a condensed version of these two pages:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://wiki.archlinux.org/title/Nix&#34;&gt;Nix - ArchWiki&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://nix-community.github.io/home-manager/index.html#sec-install-standalone&#34;&gt;Home Manager standalone installation&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content>
     </item>
     
   </channel>
