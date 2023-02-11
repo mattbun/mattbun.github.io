@@ -1,0 +1,26 @@
+name: Hugo Build
+
+on:
+  push:
+    branches-ignore:
+      - 'master'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - uses: cachix/install-nix-action@v19
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      - name: Build
+        run: nix-shell --run 'make build'
+
+      - name: Create CNAME file
+        run: cp CNAME public/CNAME
