@@ -7,7 +7,6 @@ tags:
   - nappa
   - nix
   - nixos
-  - fluxcd
   - k3s
   - kubernetes
 ---
