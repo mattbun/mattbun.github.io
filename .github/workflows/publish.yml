@@ -15,16 +15,13 @@ jobs:
           submodules: true
           fetch-depth: 0
 
-      - name: Use Node.js
-        uses: actions/setup-node@v1
+      - name: Install nix
+        uses: cachix/install-nix-action@v19
         with:
-          node-version: 12.x
-
-      - name: Install dependencies
-        run: yarn install
+          nix_path: nixpkgs=channel:nixos-unstable
 
       - name: Build
-        run: yarn build
+        run: nix-shell --run 'make build'
 
       - name: Create CNAME file
         run: cp CNAME public/CNAME
