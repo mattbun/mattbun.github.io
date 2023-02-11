@@ -15,7 +15,8 @@ jobs:
           submodules: true
           fetch-depth: 0
 
-      - uses: cachix/install-nix-action@v19
+      - name: Install nix
+        uses: cachix/install-nix-action@v19
         with:
           nix_path: nixpkgs=channel:nixos-unstable
 
