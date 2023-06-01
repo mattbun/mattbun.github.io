@@ -1,6 +1,6 @@
 {
 	"version": 3,
-	"file": "style.css",
+	"file": "styles.css",
 	"sourceRoot": "/home/runner/work/mattbun.github.io/mattbun.github.io",
 	"sources": [
 		"css/base.scss",
