@@ -322,22 +322,22 @@ In this post, I&amp;rsquo;ll outline what this new cluster looks like and go int
 </span></span></code></pre></div></li>
 <li>
 <p>Set a static IP address for <code>eth0</code>. Open <code>/etc/dhcpcd.conf</code> and add this to the end:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-conf" data-lang="conf"><span style="display:flex;"><span>interface eth0
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> ip_address<span style="color:#f92672">=</span><span style="color:#ae81ff">192.168.2.1/24</span>
-</span></span></code></pre></div></li>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">interface eth0
+static ip_address=192.168.2.1/24
+</code></pre></li>
 <li>
 <p>Save or remove the original <code>dnsmasq.conf</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo mv /etc/dnsmasq.conf /etc/dnsmaq.conf.orig
 </span></span></code></pre></div></li>
 <li>
 <p>Open <code>/etc/dnsmasq.conf</code> and add this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-conf" data-lang="conf"><span style="display:flex;"><span>interface<span style="color:#f92672">=</span>eth0
-</span></span><span style="display:flex;"><span>dhcp-range<span style="color:#f92672">=</span><span style="color:#ae81ff">192.168.2.10</span>,<span style="color:#ae81ff">192.168.2.250</span>,<span style="color:#ae81ff">255.255.255.0</span>,12h
-</span></span></code></pre></div></li>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">interface=eth0
+dhcp-range=192.168.2.10,192.168.2.250,255.255.255.0,12h
+</code></pre></li>
 <li>
 <p>Open <code>/etc/sysctl.conf</code> and uncomment</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-conf" data-lang="conf"><span style="display:flex;"><span>net.ipv4.ip_forward<span style="color:#f92672">=</span>1
-</span></span></code></pre></div></li>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">net.ipv4.ip_forward=1
+</code></pre></li>
 <li>
 <p>Open <code>/etc/rc.local</code> and add this line above <code>exit 0</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>iptables -t nat -A  POSTROUTING -o wlan0 -j MASQUERADE
