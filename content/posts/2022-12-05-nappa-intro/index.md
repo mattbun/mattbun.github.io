@@ -79,4 +79,4 @@ That tells flannel to use the same ethernet port that the Raspberry Pis are conn
 
 # That's it for now!
 
-The full configuration for `nappa` (and the rest of the cluster) can be found [here](https://github.com/mattbun/nappa). In my next post, I'll go through the changes I've made to the Raspberry Pis. Spoiler alert: they're also on NixOS!
+The full configuration for `nappa` (and the rest of the cluster) can be found [here](https://github.com/mattbun/nappa-cluster). In my next post, I'll go through the changes I've made to the Raspberry Pis. Spoiler alert: they're also on NixOS!
