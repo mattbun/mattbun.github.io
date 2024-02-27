@@ -5,11 +5,11 @@
     <link>/tags/</link>
     <description>Recent content in Tags on #!/matt/rathbun</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en</language>
     <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
     <lastBuildDate>Mon, 05 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>k3s</title>
+      <title>K3s</title>
       <link>/tags/k3s/</link>
       <pubDate>Mon, 05 Dec 2022 00:00:00 +0000</pubDate>
       
@@ -19,7 +19,7 @@
     </item>
     
     <item>
-      <title>kubernetes</title>
+      <title>Kubernetes</title>
       <link>/tags/kubernetes/</link>
       <pubDate>Mon, 05 Dec 2022 00:00:00 +0000</pubDate>
       
@@ -29,7 +29,7 @@
     </item>
     
     <item>
-      <title>nappa</title>
+      <title>Nappa</title>
       <link>/tags/nappa/</link>
       <pubDate>Mon, 05 Dec 2022 00:00:00 +0000</pubDate>
       
@@ -39,7 +39,7 @@
     </item>
     
     <item>
-      <title>nix</title>
+      <title>Nix</title>
       <link>/tags/nix/</link>
       <pubDate>Mon, 05 Dec 2022 00:00:00 +0000</pubDate>
       
@@ -49,7 +49,7 @@
     </item>
     
     <item>
-      <title>nixos</title>
+      <title>Nixos</title>
       <link>/tags/nixos/</link>
       <pubDate>Mon, 05 Dec 2022 00:00:00 +0000</pubDate>
       
@@ -59,7 +59,7 @@
     </item>
     
     <item>
-      <title>arch</title>
+      <title>Arch</title>
       <link>/tags/arch/</link>
       <pubDate>Tue, 04 Oct 2022 00:00:00 +0000</pubDate>
       
@@ -69,7 +69,7 @@
     </item>
     
     <item>
-      <title>home-manager</title>
+      <title>Home-Manager</title>
       <link>/tags/home-manager/</link>
       <pubDate>Tue, 04 Oct 2022 00:00:00 +0000</pubDate>
       
@@ -79,7 +79,7 @@
     </item>
     
     <item>
-      <title>linux</title>
+      <title>Linux</title>
       <link>/tags/linux/</link>
       <pubDate>Tue, 04 Oct 2022 00:00:00 +0000</pubDate>
       
@@ -89,7 +89,7 @@
     </item>
     
     <item>
-      <title>dependabot</title>
+      <title>Dependabot</title>
       <link>/tags/dependabot/</link>
       <pubDate>Sat, 19 Jun 2021 00:00:00 +0000</pubDate>
       
@@ -99,7 +99,7 @@
     </item>
     
     <item>
-      <title>semantic-release</title>
+      <title>Semantic-Release</title>
       <link>/tags/semantic-release/</link>
       <pubDate>Sat, 19 Jun 2021 00:00:00 +0000</pubDate>
       
@@ -109,7 +109,7 @@
     </item>
     
     <item>
-      <title>docker</title>
+      <title>Docker</title>
       <link>/tags/docker/</link>
       <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
       
@@ -119,7 +119,7 @@
     </item>
     
     <item>
-      <title>nodejs</title>
+      <title>Nodejs</title>
       <link>/tags/nodejs/</link>
       <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
       
@@ -129,7 +129,7 @@
     </item>
     
     <item>
-      <title>raspberrypi</title>
+      <title>Raspberrypi</title>
       <link>/tags/raspberrypi/</link>
       <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
       
@@ -139,7 +139,7 @@
     </item>
     
     <item>
-      <title>github-actions</title>
+      <title>Github-Actions</title>
       <link>/tags/github-actions/</link>
       <pubDate>Sat, 03 Oct 2020 00:00:00 +0000</pubDate>
       
@@ -149,7 +149,7 @@
     </item>
     
     <item>
-      <title>hugo</title>
+      <title>Hugo</title>
       <link>/tags/hugo/</link>
       <pubDate>Sat, 03 Oct 2020 00:00:00 +0000</pubDate>
       
@@ -159,7 +159,7 @@
     </item>
     
     <item>
-      <title>ssg</title>
+      <title>Ssg</title>
       <link>/tags/ssg/</link>
       <pubDate>Sat, 03 Oct 2020 00:00:00 +0000</pubDate>
       
@@ -169,7 +169,7 @@
     </item>
     
     <item>
-      <title>gatsby</title>
+      <title>Gatsby</title>
       <link>/tags/gatsby/</link>
       <pubDate>Sun, 02 Aug 2020 00:00:00 +0000</pubDate>
       
@@ -179,7 +179,7 @@
     </item>
     
     <item>
-      <title>github-pages</title>
+      <title>Github-Pages</title>
       <link>/tags/github-pages/</link>
       <pubDate>Sun, 02 Aug 2020 00:00:00 +0000</pubDate>
       

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>kubernetes on #!/matt/rathbun</title>
+    <title>Kubernetes on #!/matt/rathbun</title>
     <link>/tags/kubernetes/</link>
-    <description>Recent content in kubernetes on #!/matt/rathbun</description>
+    <description>Recent content in Kubernetes on #!/matt/rathbun</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en</language>
     <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
     <lastBuildDate>Mon, 05 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -18,7 +18,7 @@
       <content>&lt;p&gt;It&amp;rsquo;s been almost two years since I built my &lt;a href=&#34;/posts/rpi-k3s-cluster&#34;&gt;first Raspberry Pi-powered k3s cluster&lt;/a&gt;. A lot&amp;rsquo;s changed! There&amp;rsquo;s a new node in the cluster and I&amp;rsquo;ve gone off the deep end switching everything to NixOS. In this post, I&amp;rsquo;ll talk about the new node and some of the nix options that enable it.&lt;/p&gt;
 &lt;h1 id=&#34;nappa-the-control-plane&#34;&gt;Nappa&amp;hellip; the Control Plane?&lt;/h1&gt;
 &lt;p&gt;The new addition to the cluster is &lt;code&gt;nappa&lt;/code&gt;, an x86 NUC that now runs the control plane. Its extra processing power fixes the stability issues I had when the cluster was all Raspberry Pis. It also serves as network gateway (it has two ethernet ports!) and NFS server (for persistent volume storage) for the rest of the cluster. The new diagram looks like this:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;nappa-diagram.png&#34; alt=&#34;nappa cluster network setup&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;nappa cluster network setup&#34; src=&#34;/posts/nappa-intro/nappa-diagram.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Ok and I also splurged on some new Raspberry Pis 💰. &lt;code&gt;saibaman1&lt;/code&gt; and &lt;code&gt;saibaman2&lt;/code&gt; are now Raspberry Pi 4s with 8GB of memory. More memory, more containers!&lt;/p&gt;
 &lt;h1 id=&#34;setting-up-a-network-gateway-in-nixos&#34;&gt;Setting up a Network Gateway in NixOS&lt;/h1&gt;
 &lt;p&gt;&lt;code&gt;nappa&lt;/code&gt; runs NixOS, which makes it really simple to set up &lt;a href=&#34;https://thekelleys.org.uk/dnsmasq/doc.html&#34;&gt;dnsmasq&lt;/a&gt;. In the config below, I set up a subnet at 192.168.2.x, but only on the ethernet port connected to the Raspberry Pis:&lt;/p&gt;
@@ -53,7 +53,7 @@
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;--flannel-iface&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;enp4s0
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;That tells flannel to use the same ethernet port that the Raspberry Pis are connected to. All better!&lt;/p&gt;
 &lt;h1 id=&#34;thats-it-for-now&#34;&gt;That&amp;rsquo;s it for now!&lt;/h1&gt;
-&lt;p&gt;The full configuration for &lt;code&gt;nappa&lt;/code&gt; (and the rest of the cluster) can be found &lt;a href=&#34;https://github.com/mattbun/nappa&#34;&gt;here&lt;/a&gt;. In my next post, I&amp;rsquo;ll go through the changes I&amp;rsquo;ve made to the Raspberry Pis. Spoiler alert: they&amp;rsquo;re also on NixOS!&lt;/p&gt;</content>
+&lt;p&gt;The full configuration for &lt;code&gt;nappa&lt;/code&gt; (and the rest of the cluster) can be found &lt;a href=&#34;https://github.com/mattbun/nappa-cluster&#34;&gt;here&lt;/a&gt;. In my next post, I&amp;rsquo;ll go through the changes I&amp;rsquo;ve made to the Raspberry Pis. Spoiler alert: they&amp;rsquo;re also on NixOS!&lt;/p&gt;</content>
     </item>
     
     <item>
@@ -134,7 +134,7 @@
 &lt;p&gt;I&amp;rsquo;m &lt;em&gt;really&lt;/em&gt; excited about this. I might just make a template out of it.&lt;/p&gt;
 &lt;h1 id=&#34;back-to-the-cluster&#34;&gt;Back to the cluster&lt;/h1&gt;
 &lt;p&gt;Turns out my slightly unstable cluster is perfect for running this:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;kubectl_jobs.png&#34; alt=&#34;Three successful jobs!&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;Three successful jobs!&#34; src=&#34;/posts/rpi-cluster-removing-torrents/kubectl_jobs.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;This has been working great for the last few weeks now. Old torrents are getting removed and my cluster has that warm feeling of accomplishment. Win win.&lt;/p&gt;</content>
     </item>
     
@@ -149,7 +149,7 @@
       <content>&lt;p&gt;Over the holidays I made a &lt;a href=&#34;https://k3s.io/&#34;&gt;k3s&lt;/a&gt; (that&amp;rsquo;s Kubernetes minus 5) cluster out of Raspberry Pis I had lying around. And while it&amp;rsquo;s &lt;em&gt;extremely&lt;/em&gt; cool, it&amp;rsquo;s also &lt;em&gt;pretty&lt;/em&gt; unstable.&lt;/p&gt;
 &lt;p&gt;In this post, I&amp;rsquo;ll outline what this new cluster looks like and go into detail on how I set it up. At the end, I&amp;rsquo;ll talk a little bit about why I won&amp;rsquo;t be entrusting it with my most important tasks just yet.&lt;/p&gt;
 &lt;h1 id=&#34;overview&#34;&gt;Overview&lt;/h1&gt;
-&lt;p&gt;&lt;img src=&#34;saibamen_diagram.svg&#34; alt=&#34;saibamen diagram&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;saibamen diagram&#34; src=&#34;/posts/rpi-k3s-cluster/saibamen_diagram.svg&#34;&gt;&lt;/p&gt;
 &lt;p&gt;To keep it simple, this cluster has just two nodes. In keeping with my tradition of naming computers after Dragon Ball Z villains, it&amp;rsquo;s collectively named the &lt;code&gt;saibamen&lt;/code&gt; cluster (after those &lt;a href=&#34;https://dragonball.fandom.com/wiki/Saibamen&#34;&gt;nasty little green aliens&lt;/a&gt; Nappa and Vegeta unleashed on our unsuspecting Z Fighters).&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;saibaman1&lt;/code&gt; -&amp;gt; master node

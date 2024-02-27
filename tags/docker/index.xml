@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>docker on #!/matt/rathbun</title>
+    <title>Docker on #!/matt/rathbun</title>
     <link>/tags/docker/</link>
-    <description>Recent content in docker on #!/matt/rathbun</description>
+    <description>Recent content in Docker on #!/matt/rathbun</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en</language>
     <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
     <lastBuildDate>Tue, 23 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/docker/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -86,7 +86,7 @@
 &lt;p&gt;I&amp;rsquo;m &lt;em&gt;really&lt;/em&gt; excited about this. I might just make a template out of it.&lt;/p&gt;
 &lt;h1 id=&#34;back-to-the-cluster&#34;&gt;Back to the cluster&lt;/h1&gt;
 &lt;p&gt;Turns out my slightly unstable cluster is perfect for running this:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;kubectl_jobs.png&#34; alt=&#34;Three successful jobs!&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;Three successful jobs!&#34; src=&#34;/posts/rpi-cluster-removing-torrents/kubectl_jobs.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;This has been working great for the last few weeks now. Old torrents are getting removed and my cluster has that warm feeling of accomplishment. Win win.&lt;/p&gt;</content>
     </item>
     
