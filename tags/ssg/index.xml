@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ssg on #!/matt/rathbun</title>
+    <title>Ssg on #!/matt/rathbun</title>
     <link>/tags/ssg/</link>
-    <description>Recent content in ssg on #!/matt/rathbun</description>
+    <description>Recent content in Ssg on #!/matt/rathbun</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
@@ -149,16 +149,16 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#f92672&#34;&gt;deploy-branch&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;gh-pages&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Before you go and push this change, note that it requires a secret named &lt;code&gt;ACCESS_TOKEN&lt;/code&gt;. It needs that token to push changes to your repo.&lt;/p&gt;
 &lt;p&gt;You&amp;rsquo;ll need to generate a personal access token with &lt;code&gt;repo&lt;/code&gt; scope. See &lt;a href=&#34;https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token&#34;&gt;here&lt;/a&gt; for instructions on how to do that. Copy the token, open your repository&amp;rsquo;s settings, go to the &amp;ldquo;Secrets&amp;rdquo; tab, and create a new secret named &lt;code&gt;ACCESS_TOKEN&lt;/code&gt; with the token you copied.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;screenshot_secret.png&#34; alt=&#34;Adding GitHub secret&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;Adding GitHub secret&#34; src=&#34;/posts/how-i-made-this-website/screenshot_secret.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;With the secret in place, go ahead and push those changes. Go to the &amp;ldquo;Actions&amp;rdquo; tab in GitHub and you can watch the build in action. Assuming it completes successfully, you&amp;rsquo;ll find there&amp;rsquo;s a new &lt;code&gt;gh-pages&lt;/code&gt; branch with your compiled website (&lt;a href=&#34;https://github.com/mattbun/mattbun.github.io/tree/gh-pages&#34;&gt;like this&lt;/a&gt;). We&amp;rsquo;re almost there!&lt;/p&gt;
 &lt;h3 id=&#34;step-4-enable-github-pages&#34;&gt;Step 4: Enable GitHub Pages&lt;/h3&gt;
 &lt;p&gt;Now you just need to &lt;a href=&#34;https://docs.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site&#34;&gt;enable Github Pages&lt;/a&gt; on this repository. Click the Settings tab and scroll all the way down to the &amp;ldquo;GitHub Pages&amp;rdquo; section. Choose your new &lt;code&gt;gh-pages&lt;/code&gt; branch and hit save!&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;screenshot_pages.png&#34; alt=&#34;Enabling GitHub Pages&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;Enabling GitHub Pages&#34; src=&#34;/posts/how-i-made-this-website/screenshot_pages.png&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;step-5-try-it-out&#34;&gt;Step 5: Try it Out!&lt;/h3&gt;
 &lt;p&gt;That should be it! Open up your website at &lt;code&gt;&amp;lt;username&amp;gt;-github.io&lt;/code&gt; and it should be up and running! 🎉💃&lt;/p&gt;
 &lt;h3 id=&#34;bonus-using-a-custom-domain&#34;&gt;Bonus: Using a Custom Domain&lt;/h3&gt;
 &lt;p&gt;In addition to &lt;a href=&#34;https://mattbun.github.io&#34;&gt;mattbun.github.io&lt;/a&gt;, I updated my domain &lt;a href=&#34;https://rathbun.dev&#34;&gt;rathbun.dev&lt;/a&gt; to point to it as well. &lt;a href=&#34;https://docs.github.com/en/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site#configuring-an-apex-domain&#34;&gt;These instructions&lt;/a&gt; show you how to do it. My domain is registered through Google Domains and my DNS settings there look something like this:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;screenshot_dns.png&#34; alt=&#34;Configuring DNS in Google Domains&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;Configuring DNS in Google Domains&#34; src=&#34;/posts/how-i-made-this-website/screenshot_dns.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Be sure to put your domain name in a file named &lt;code&gt;CNAME&lt;/code&gt; in the root directory on your master branch. GitHub will try to add it to your &lt;code&gt;gh-pages&lt;/code&gt; branch but the Gatsby Publish action will overwrite it. If you put it in master, the action &lt;a href=&#34;https://github.com/marketplace/actions/gatsby-publish#cname&#34;&gt;will copy the file over when it deploys&lt;/a&gt;.&lt;/p&gt;</content>
     </item>
     

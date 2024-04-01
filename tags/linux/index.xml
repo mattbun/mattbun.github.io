@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>linux on #!/matt/rathbun</title>
+    <title>Linux on #!/matt/rathbun</title>
     <link>/tags/linux/</link>
-    <description>Recent content in linux on #!/matt/rathbun</description>
+    <description>Recent content in Linux on #!/matt/rathbun</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
@@ -56,7 +56,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;And that should be it! Enjoy!&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;nix-arch-cowsay.png&#34; alt=&#34;A nix shell running &amp;lsquo;cat /etc/os-release | cowsay&amp;rsquo;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;A nix shell running &amp;lsquo;cat /etc/os-release | cowsay&amp;rsquo;&#34; src=&#34;/posts/nix-arch/nix-arch-cowsay.png&#34;&gt;&lt;/p&gt;
 &lt;h1 id=&#34;for-more-info&#34;&gt;For more info&amp;hellip;&lt;/h1&gt;
 &lt;p&gt;These instructions are basically a condensed version of these two pages:&lt;/p&gt;
 &lt;ul&gt;
@@ -76,7 +76,7 @@
       <content>&lt;p&gt;Over the holidays I made a &lt;a href=&#34;https://k3s.io/&#34;&gt;k3s&lt;/a&gt; (that&amp;rsquo;s Kubernetes minus 5) cluster out of Raspberry Pis I had lying around. And while it&amp;rsquo;s &lt;em&gt;extremely&lt;/em&gt; cool, it&amp;rsquo;s also &lt;em&gt;pretty&lt;/em&gt; unstable.&lt;/p&gt;
 &lt;p&gt;In this post, I&amp;rsquo;ll outline what this new cluster looks like and go into detail on how I set it up. At the end, I&amp;rsquo;ll talk a little bit about why I won&amp;rsquo;t be entrusting it with my most important tasks just yet.&lt;/p&gt;
 &lt;h1 id=&#34;overview&#34;&gt;Overview&lt;/h1&gt;
-&lt;p&gt;&lt;img src=&#34;saibamen_diagram.svg&#34; alt=&#34;saibamen diagram&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;saibamen diagram&#34; src=&#34;/posts/rpi-k3s-cluster/saibamen_diagram.svg&#34;&gt;&lt;/p&gt;
 &lt;p&gt;To keep it simple, this cluster has just two nodes. In keeping with my tradition of naming computers after Dragon Ball Z villains, it&amp;rsquo;s collectively named the &lt;code&gt;saibamen&lt;/code&gt; cluster (after those &lt;a href=&#34;https://dragonball.fandom.com/wiki/Saibamen&#34;&gt;nasty little green aliens&lt;/a&gt; Nappa and Vegeta unleashed on our unsuspecting Z Fighters).&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;saibaman1&lt;/code&gt; -&amp;gt; master node

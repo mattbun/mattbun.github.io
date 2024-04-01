@@ -230,16 +230,16 @@ Gatsby - A static site generator GitHub Pages - Host sites from a git repository
 </span></span><span style="display:flex;"><span>          <span style="color:#f92672">deploy-branch</span>: <span style="color:#ae81ff">gh-pages</span>
 </span></span></code></pre></div><p>Before you go and push this change, note that it requires a secret named <code>ACCESS_TOKEN</code>. It needs that token to push changes to your repo.</p>
 <p>You&rsquo;ll need to generate a personal access token with <code>repo</code> scope. See <a href="https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token">here</a> for instructions on how to do that. Copy the token, open your repository&rsquo;s settings, go to the &ldquo;Secrets&rdquo; tab, and create a new secret named <code>ACCESS_TOKEN</code> with the token you copied.</p>
-<p><img src="screenshot_secret.png" alt="Adding GitHub secret"></p>
+<p><img alt="Adding GitHub secret" src="/posts/how-i-made-this-website/screenshot_secret.png"></p>
 <p>With the secret in place, go ahead and push those changes. Go to the &ldquo;Actions&rdquo; tab in GitHub and you can watch the build in action. Assuming it completes successfully, you&rsquo;ll find there&rsquo;s a new <code>gh-pages</code> branch with your compiled website (<a href="https://github.com/mattbun/mattbun.github.io/tree/gh-pages">like this</a>). We&rsquo;re almost there!</p>
 <h3 id="step-4-enable-github-pages">Step 4: Enable GitHub Pages<a href="#step-4-enable-github-pages" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>Now you just need to <a href="https://docs.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site">enable Github Pages</a> on this repository. Click the Settings tab and scroll all the way down to the &ldquo;GitHub Pages&rdquo; section. Choose your new <code>gh-pages</code> branch and hit save!</p>
-<p><img src="screenshot_pages.png" alt="Enabling GitHub Pages"></p>
+<p><img alt="Enabling GitHub Pages" src="/posts/how-i-made-this-website/screenshot_pages.png"></p>
 <h3 id="step-5-try-it-out">Step 5: Try it Out!<a href="#step-5-try-it-out" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>That should be it! Open up your website at <code>&lt;username&gt;-github.io</code> and it should be up and running! 🎉💃</p>
 <h3 id="bonus-using-a-custom-domain">Bonus: Using a Custom Domain<a href="#bonus-using-a-custom-domain" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>In addition to <a href="https://mattbun.github.io">mattbun.github.io</a>, I updated my domain <a href="https://rathbun.dev">rathbun.dev</a> to point to it as well. <a href="https://docs.github.com/en/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site#configuring-an-apex-domain">These instructions</a> show you how to do it. My domain is registered through Google Domains and my DNS settings there look something like this:</p>
-<p><img src="screenshot_dns.png" alt="Configuring DNS in Google Domains"></p>
+<p><img alt="Configuring DNS in Google Domains" src="/posts/how-i-made-this-website/screenshot_dns.png"></p>
 <p>Be sure to put your domain name in a file named <code>CNAME</code> in the root directory on your master branch. GitHub will try to add it to your <code>gh-pages</code> branch but the Gatsby Publish action will overwrite it. If you put it in master, the action <a href="https://github.com/marketplace/actions/gatsby-publish#cname">will copy the file over when it deploys</a>.</p>
       </div></div>
 

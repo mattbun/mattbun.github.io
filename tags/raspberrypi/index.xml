@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>raspberrypi on #!/matt/rathbun</title>
+    <title>Raspberrypi on #!/matt/rathbun</title>
     <link>/tags/raspberrypi/</link>
-    <description>Recent content in raspberrypi on #!/matt/rathbun</description>
+    <description>Recent content in Raspberrypi on #!/matt/rathbun</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
@@ -86,7 +86,7 @@
 &lt;p&gt;I&amp;rsquo;m &lt;em&gt;really&lt;/em&gt; excited about this. I might just make a template out of it.&lt;/p&gt;
 &lt;h1 id=&#34;back-to-the-cluster&#34;&gt;Back to the cluster&lt;/h1&gt;
 &lt;p&gt;Turns out my slightly unstable cluster is perfect for running this:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;kubectl_jobs.png&#34; alt=&#34;Three successful jobs!&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;Three successful jobs!&#34; src=&#34;/posts/rpi-cluster-removing-torrents/kubectl_jobs.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;This has been working great for the last few weeks now. Old torrents are getting removed and my cluster has that warm feeling of accomplishment. Win win.&lt;/p&gt;</content>
     </item>
     
@@ -101,7 +101,7 @@
       <content>&lt;p&gt;Over the holidays I made a &lt;a href=&#34;https://k3s.io/&#34;&gt;k3s&lt;/a&gt; (that&amp;rsquo;s Kubernetes minus 5) cluster out of Raspberry Pis I had lying around. And while it&amp;rsquo;s &lt;em&gt;extremely&lt;/em&gt; cool, it&amp;rsquo;s also &lt;em&gt;pretty&lt;/em&gt; unstable.&lt;/p&gt;
 &lt;p&gt;In this post, I&amp;rsquo;ll outline what this new cluster looks like and go into detail on how I set it up. At the end, I&amp;rsquo;ll talk a little bit about why I won&amp;rsquo;t be entrusting it with my most important tasks just yet.&lt;/p&gt;
 &lt;h1 id=&#34;overview&#34;&gt;Overview&lt;/h1&gt;
-&lt;p&gt;&lt;img src=&#34;saibamen_diagram.svg&#34; alt=&#34;saibamen diagram&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;saibamen diagram&#34; src=&#34;/posts/rpi-k3s-cluster/saibamen_diagram.svg&#34;&gt;&lt;/p&gt;
 &lt;p&gt;To keep it simple, this cluster has just two nodes. In keeping with my tradition of naming computers after Dragon Ball Z villains, it&amp;rsquo;s collectively named the &lt;code&gt;saibamen&lt;/code&gt; cluster (after those &lt;a href=&#34;https://dragonball.fandom.com/wiki/Saibamen&#34;&gt;nasty little green aliens&lt;/a&gt; Nappa and Vegeta unleashed on our unsuspecting Z Fighters).&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;saibaman1&lt;/code&gt; -&amp;gt; master node

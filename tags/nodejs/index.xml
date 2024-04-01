@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>nodejs on #!/matt/rathbun</title>
+    <title>Nodejs on #!/matt/rathbun</title>
     <link>/tags/nodejs/</link>
-    <description>Recent content in nodejs on #!/matt/rathbun</description>
+    <description>Recent content in Nodejs on #!/matt/rathbun</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
@@ -86,7 +86,7 @@
 &lt;p&gt;I&amp;rsquo;m &lt;em&gt;really&lt;/em&gt; excited about this. I might just make a template out of it.&lt;/p&gt;
 &lt;h1 id=&#34;back-to-the-cluster&#34;&gt;Back to the cluster&lt;/h1&gt;
 &lt;p&gt;Turns out my slightly unstable cluster is perfect for running this:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;kubectl_jobs.png&#34; alt=&#34;Three successful jobs!&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;Three successful jobs!&#34; src=&#34;/posts/rpi-cluster-removing-torrents/kubectl_jobs.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;This has been working great for the last few weeks now. Old torrents are getting removed and my cluster has that warm feeling of accomplishment. Win win.&lt;/p&gt;</content>
     </item>
     
