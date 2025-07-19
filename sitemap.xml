@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>/posts/building-nixos-rpi-images/</loc>
+    <lastmod>2025-07-19T19:10:16-04:00</lastmod>
+  </url><url>
+    <loc>/tags/nix/</loc>
+    <lastmod>2025-07-19T19:10:16-04:00</lastmod>
+  </url><url>
+    <loc>/tags/nixos/</loc>
+    <lastmod>2025-07-19T19:10:16-04:00</lastmod>
+  </url><url>
+    <loc>/posts/</loc>
+    <lastmod>2025-07-19T19:10:16-04:00</lastmod>
+  </url><url>
+    <loc>/tags/raspberrypi/</loc>
+    <lastmod>2025-07-19T19:10:16-04:00</lastmod>
+  </url><url>
+    <loc>/tags/</loc>
+    <lastmod>2025-07-19T19:10:16-04:00</lastmod>
+  </url><url>
     <loc>/posts/nappa-intro/</loc>
     <lastmod>2024-02-26T20:33:56-05:00</lastmod>
   </url><url>
@@ -13,18 +31,6 @@
   </url><url>
     <loc>/tags/nappa/</loc>
     <lastmod>2024-02-26T20:33:56-05:00</lastmod>
-  </url><url>
-    <loc>/tags/nix/</loc>
-    <lastmod>2024-02-26T20:33:56-05:00</lastmod>
-  </url><url>
-    <loc>/tags/nixos/</loc>
-    <lastmod>2024-02-26T20:33:56-05:00</lastmod>
-  </url><url>
-    <loc>/posts/</loc>
-    <lastmod>2025-07-19T17:46:49-04:00</lastmod>
-  </url><url>
-    <loc>/tags/</loc>
-    <lastmod>2025-07-19T17:46:49-04:00</lastmod>
   </url><url>
     <loc>/tags/arch/</loc>
     <lastmod>2022-12-05T20:00:11-05:00</lastmod>
@@ -51,9 +57,6 @@
     <lastmod>2025-07-19T17:46:49-04:00</lastmod>
   </url><url>
     <loc>/tags/nodejs/</loc>
-    <lastmod>2025-07-19T17:46:49-04:00</lastmod>
-  </url><url>
-    <loc>/tags/raspberrypi/</loc>
     <lastmod>2025-07-19T17:46:49-04:00</lastmod>
   </url><url>
     <loc>/posts/rpi-cluster-removing-torrents/</loc>

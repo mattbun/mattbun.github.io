@@ -7,8 +7,29 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
-    <lastBuildDate>Sat, 19 Jul 2025 17:46:49 -0400</lastBuildDate>
+    <lastBuildDate>Sat, 19 Jul 2025 19:10:16 -0400</lastBuildDate>
     <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>nix</title>
+      <link>/tags/nix/</link>
+      <pubDate>Sun, 12 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/nix/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>nixos</title>
+      <link>/tags/nixos/</link>
+      <pubDate>Sun, 12 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/nixos/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>raspberrypi</title>
+      <link>/tags/raspberrypi/</link>
+      <pubDate>Sun, 12 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/raspberrypi/</guid>
+      <description></description>
+    </item>
     <item>
       <title>k3s</title>
       <link>/tags/k3s/</link>
@@ -28,20 +49,6 @@
       <link>/tags/nappa/</link>
       <pubDate>Mon, 05 Dec 2022 00:00:00 +0000</pubDate>
       <guid>/tags/nappa/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>nix</title>
-      <link>/tags/nix/</link>
-      <pubDate>Mon, 05 Dec 2022 00:00:00 +0000</pubDate>
-      <guid>/tags/nix/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>nixos</title>
-      <link>/tags/nixos/</link>
-      <pubDate>Mon, 05 Dec 2022 00:00:00 +0000</pubDate>
-      <guid>/tags/nixos/</guid>
       <description></description>
     </item>
     <item>
@@ -91,13 +98,6 @@
       <link>/tags/nodejs/</link>
       <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
       <guid>/tags/nodejs/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>raspberrypi</title>
-      <link>/tags/raspberrypi/</link>
-      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
-      <guid>/tags/raspberrypi/</guid>
       <description></description>
     </item>
     <item>

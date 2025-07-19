@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Building Custom NixOS Images for the Raspberry Pi | #!/matt/rathbun</title>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css">
+
+      <link rel="stylesheet" href="/css/colors.min.73a4fa8b5660037be8ad75523eebd8a911e1d976ef5865a3e6d301d6dce76d85.css" integrity="sha256-c6T6i1ZgA3vorXVSPuvYqRHh2XbvWGWj5tMB1tznbYU=" crossorigin="anonymous">
+      <link rel="stylesheet" href="/css/main.min.c216b0090b5ddbb0437e4221d85048b92188dd3305459c9c650d70ae3d66596c.css" integrity="sha256-whawCQtd27BDfkIh2FBIuSGI3TMFRZycZQ1wrj1mWWw=" crossorigin="anonymous">
+      <link rel="stylesheet" href="/css/syntax.min.b840b9ed282a8d467cd5fb90af17571bda7b0cdcca46af05b6f2e9ac8b0377f9.css" integrity="sha256-uEC57SgqjUZ81fuQrxdXG9p7DNzKRq8FtvLprIsDd/k=" crossorigin="anonymous">
+
+
+</head>
+<body>
+  <header>
+    <div class="nav">
+  <a href="/" class="accent">#!/matt/rathbun</a>
+  <a href="/posts" class="left">/posts</a>
+
+  <a href="https://github.com/mattbun" class="right">github</a>
+</div>
+
+  </header>
+  <main>
+    
+  <h1>Building Custom NixOS Images for the Raspberry Pi</h1>
+
+  
+  
+  <time datetime="2023-02-12T00:00:00&#43;00:00">February 12, 2023</time>
+  |
+  
+    <a class="tag" href="/tags/nix/">#nix</a>
+    <a class="tag" href="/tags/nixos/">#nixos</a>
+    <a class="tag" href="/tags/raspberrypi/">#raspberrypi</a>
+
+
+  <br>
+  <br>
+  <p>When installing NixOS on a computer, I&rsquo;ve generally followed the same process:</p>
+<ol>
+<li>Boot NixOS installer</li>
+<li>Format and mount partitions</li>
+<li>Copy <code>configuration.nix</code> into place</li>
+<li>Run the installer</li>
+<li>Reboot</li>
+</ol>
+<p>This works fine for most of my computers, but with a Raspberry Pi you don&rsquo;t generally boot an installer off a USB stick. Instead, you install the operating system (like a Raspberry Pi OS image) directly to its SD card and boot that.</p>
+<p>This is another place where NixOS <em>shines</em>. Let&rsquo;s talk about building custom NixOS images for the Raspberry Pi.</p>
+<h2 id="nix-configuration">Nix configuration</h2>
+<p>First, you&rsquo;ll need a nix configuration to build. You don&rsquo;t need a whole lot to get something simple going:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl"><span class="p">{</span> <span class="n">pkgs</span><span class="o">,</span> <span class="n">config</span><span class="o">,</span> <span class="n">lib</span><span class="o">,</span> <span class="o">...</span> <span class="p">}:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">networking</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="s2">&#34;my-cool-rpi&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">users</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="s2">&#34;my-user&#34;</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">isNormalUser</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">home</span> <span class="o">=</span> <span class="s2">&#34;/home/my-user&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">extraGroups</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&#34;wheel&#34;</span> <span class="p">];</span> <span class="c1"># wheel gives user access to sudo</span>
+</span></span><span class="line"><span class="cl">    <span class="n">initialPassword</span> <span class="o">=</span> <span class="s2">&#34;changeme&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">system</span><span class="o">.</span><span class="n">stateVersion</span> <span class="o">=</span> <span class="s2">&#34;22.05&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>This makes a system with hostname &ldquo;my-cool-rpi&rdquo;, which has a user named &ldquo;my-user&rdquo; with default password &ldquo;changeme&rdquo;.</p>
+<p>Now to create an SD card image from this, you add this import:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl"><span class="n">imports</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">  <span class="sr">&lt;nixpkgs/nixos/modules/installer/sd-card/sd-image-aarch64.nix&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">];</span>
+</span></span></code></pre></div><p>You can also change some settings for the SD image builder. I like to disable compression (so I can get right to <code>dd</code>ing it onto a card) and to give it a custom name:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl"><span class="n">sdImage</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">compressImage</span> <span class="o">=</span> <span class="no">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">imageName</span> <span class="o">=</span> <span class="s2">&#34;nixos-sd-image-my-cool-rpi.img&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>All in all, your configuration might look like this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl"><span class="p">{</span> <span class="n">pkgs</span><span class="o">,</span> <span class="n">config</span><span class="o">,</span> <span class="n">lib</span><span class="o">,</span> <span class="o">...</span> <span class="p">}:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">networking</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="s2">&#34;my-cool-rpi&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">imports</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="sr">&lt;nixpkgs/nixos/modules/installer/sd-card/sd-image-aarch64.nix&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">sdImage</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">compressImage</span> <span class="o">=</span> <span class="no">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">imageName</span> <span class="o">=</span> <span class="s2">&#34;nixos-sd-image-my-cool-rpi.img&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">users</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="s2">&#34;my-user&#34;</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">isNormalUser</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">home</span> <span class="o">=</span> <span class="s2">&#34;/home/my-user&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">extraGroups</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&#34;wheel&#34;</span> <span class="p">];</span> <span class="c1"># wheel gives user access to sudo</span>
+</span></span><span class="line"><span class="cl">    <span class="n">initialPassword</span> <span class="o">=</span> <span class="s2">&#34;changeme&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">system</span><span class="o">.</span><span class="n">stateVersion</span> <span class="o">=</span> <span class="s2">&#34;22.05&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Now your configuration is ready to be turned into an SD card image! But first, we have to talk about how to build this.</p>
+<h2 id="multi-architecture-builds">Multi-architecture builds</h2>
+<p>For most of us, the computer we&rsquo;re going to build this on is running on the <code>x86_64</code> CPU architecture. But this image is going to be run on a Raspberry Pi, which is <code>aarch64</code>. How are we going to do this?</p>
+<h3 id="option-1---cross-compilation">Option 1 - Cross-compilation</h3>
+<p>With cross-compilation, you&rsquo;re compiling for ARM on an x86 architecture. This sounds like what we want, but the problem is that it won&rsquo;t be able to use nix&rsquo;s binary cache. The binary cache matches on both the compiling <em>and</em> target architecture. The ARM packages in Nix&rsquo;s binary cache are built on ARM. Nix will end up compiling <em>everything</em>, which takes a very long time.</p>
+<h3 id="option-2---emulation">Option 2 - Emulation</h3>
+<p>The quicker option is to <em>emulate</em> ARM. To nix, you&rsquo;re running an ARM build on an ARM processor so it&rsquo;ll use the binary cache and finish much quicker.</p>
+<p>It&rsquo;s pretty straightforward to get up and running. Add these lines to the configuration of the NixOS system <strong>running the build</strong>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl"><span class="n">boot</span><span class="o">.</span><span class="n">binfmt</span><span class="o">.</span><span class="n">emulatedSystems</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&#34;aarch64-linux&#34;</span> <span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">nix</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">extra-platforms</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&#34;aarch64-linux&#34;</span> <span class="s2">&#34;arm-linux&#34;</span> <span class="p">];</span>
+</span></span></code></pre></div><h2 id="wrapping-it-up">Wrapping it up</h2>
+<p>With that sorted out, we can build the image. To build it, you would run something like this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl"><span class="n">nix-build</span> <span class="err">\</span>
+</span></span><span class="line"><span class="cl">  <span class="err">&#39;</span><span class="sr">&lt;nixpkgs/nixos&gt;</span><span class="err">&#39;</span> <span class="err">\</span>
+</span></span><span class="line"><span class="cl">  <span class="err">-</span><span class="n">A</span> <span class="n">config</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">build</span><span class="o">.</span><span class="n">sdImage</span> <span class="err">\</span>
+</span></span><span class="line"><span class="cl">  <span class="err">--</span><span class="n">argstr</span> <span class="n">system</span> <span class="n">aarch64-linux</span> <span class="err">\</span>
+</span></span><span class="line"><span class="cl">  <span class="err">-</span><span class="n">I</span> <span class="n">nixos-config</span><span class="o">=</span><span class="s2">&#34;./path/to/configuration.nix&#34;</span>
+</span></span></code></pre></div><p>When it&rsquo;s done, you&rsquo;ll find a <code>result/sd-image</code> directory containing the sd card image! 🎉🚀💃</p>
+<h3 id="pro-tip---use-make">Pro-tip - Use make!</h3>
+<p>It&rsquo;s tricky to remember all those arguments so I use <code>make</code> for this. Here&rsquo;s an example <code>Makefile</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-makefile" data-lang="makefile"><span class="line"><span class="cl"><span class="nf">sd-image</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">	nix-build <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>		<span class="s1">&#39;&lt;nixpkgs/nixos&gt;&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>		-A config.system.build.sdImage <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>		--argstr system aarch64-linux <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>		-I nixos-config<span class="o">=</span><span class="s2">&#34;./configuration.nix&#34;</span>
+</span></span></code></pre></div><p>Now to build the image, you run:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">make
+</span></span></code></pre></div><p>Or if it&rsquo;s not the first entry in the Makefile:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">make sd-image
+</span></span></code></pre></div><h2 id="bonus-copy-the-configuration-to-etcnixosconfigurationnix">Bonus! Copy the configuration to /etc/nixos/configuration.nix</h2>
+<p>When you boot your new image, you&rsquo;ll find that there&rsquo;s no <code>/etc/nixos/configuration.nix</code>. How do you make changes to an image that&rsquo;s already been installed?</p>
+<p>You might think that <a href="https://search.nixos.org/options?channel=22.11&amp;show=system.copySystemConfiguration">this <code>system.copySystemConfiguration</code> option</a> would do it. Close, but it only copies the configuration to the nix store. Here&rsquo;s how you can copy it right to <code>/etc/nixos</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl"><span class="n">environment</span><span class="o">.</span><span class="n">etc</span><span class="o">.</span><span class="s2">&#34;nixos/configuration.nix&#34;</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># The &#39;./.&#39; indicates that this is a relative path</span>
+</span></span><span class="line"><span class="cl">  <span class="n">text</span> <span class="o">=</span> <span class="nb">builtins</span><span class="o">.</span><span class="n">readFile</span> <span class="p">(</span><span class="sr">./.</span> <span class="o">+</span> <span class="s2">&#34;/configuration.nix&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>Boot the resulting image, sync nix channels with:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl"><span class="n">sudo</span> <span class="n">nix-channel</span> <span class="err">--</span><span class="n">update</span>
+</span></span></code></pre></div><p>and now you can apply configuration changes like you would normally:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo nixos-rebuild switch
+</span></span></code></pre></div><p><img src="https://media.giphy.com/media/aq6Thivv9V9lu/giphy-downsized-large.gif" alt="ooh yeah"></p>
+<h2 id="more-examples">More examples</h2>
+<p>You can see some examples of this in action in a couple of my repositories:</p>
+<ul>
+<li><a href="https://github.com/mattbun/irberry">mattbun/irberry</a></li>
+<li><a href="https://github.com/mattbun/nappa-cluster">mattbun/nappa-cluster</a></li>
+</ul>
+
+  </main>
+  <footer>
+    <p>Copyright 2025 Matt Rathbun. Made with <a href="https://gohugo.io/"> Hugo </a> and <a href="https://0x96f.dev/theme">0x96f</a>.</p>
+
+  </footer>
+</body>
+</html>
