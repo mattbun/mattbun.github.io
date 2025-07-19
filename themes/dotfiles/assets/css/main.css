@@ -1,5 +1,5 @@
 body {
-  color: #fcfcfc;
+  color: var(--base07);
   font-family: Hack, monospace;
   line-height: 1.5;
   margin: 0 auto; /* center horizontally */
