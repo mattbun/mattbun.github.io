@@ -1,7 +1,6 @@
 baseurl = "/"
 languageCode = "en-us"
 theme = "dotfiles"
-paginate = 5
 enableGitInfo = true
 capitalizeListTitles = false
 
