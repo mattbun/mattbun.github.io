@@ -7,7 +7,7 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
-    <lastBuildDate>Mon, 26 Feb 2024 20:33:56 -0500</lastBuildDate>
+    <lastBuildDate>Sat, 19 Jul 2025 17:46:49 -0400</lastBuildDate>
     <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>k3s</title>
@@ -80,10 +80,10 @@
       <description></description>
     </item>
     <item>
-      <title>docker</title>
-      <link>/tags/docker/</link>
+      <title>containers</title>
+      <link>/tags/containers/</link>
       <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
-      <guid>/tags/docker/</guid>
+      <guid>/tags/containers/</guid>
       <description></description>
     </item>
     <item>
@@ -115,10 +115,10 @@
       <description></description>
     </item>
     <item>
-      <title>ssg</title>
-      <link>/tags/ssg/</link>
+      <title>meta</title>
+      <link>/tags/meta/</link>
       <pubDate>Sat, 03 Oct 2020 00:00:00 +0000</pubDate>
-      <guid>/tags/ssg/</guid>
+      <guid>/tags/meta/</guid>
       <description></description>
     </item>
     <item>
