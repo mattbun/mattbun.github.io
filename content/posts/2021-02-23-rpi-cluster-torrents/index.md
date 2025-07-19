@@ -7,7 +7,7 @@ tags:
   - raspberrypi
   - kubernetes
   - nodejs
-  - docker
+  - containers
 ---
 
 My new Raspberry Pi cluster is a little unstable and pretty limited since the nodes have just 1GB of memory. What the heck could I possibly use this for?

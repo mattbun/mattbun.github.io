@@ -4,7 +4,7 @@ author: "Matt Rathbun"
 tags:
   - hugo
   - github-actions
-  - ssg
+  - meta
 slug: "switching-to-hugo"
 ---
 

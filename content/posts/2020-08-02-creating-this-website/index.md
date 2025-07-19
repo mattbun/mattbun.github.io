@@ -4,7 +4,7 @@ tags:
   - gatsby
   - github-actions
   - github-pages
-  - ssg
+  - meta
 author: Matt Rathbun
 slug: how-i-made-this-website
 ---
