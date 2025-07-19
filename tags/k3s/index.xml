@@ -1,265 +1,27 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>K3s on #!/matt/rathbun</title>
+    <title>k3s on #!/matt/rathbun</title>
     <link>/tags/k3s/</link>
-    <description>Recent content in K3s on #!/matt/rathbun</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in k3s on #!/matt/rathbun</description>
+    <generator>Hugo</generator>
     <language>en</language>
     <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
-    <lastBuildDate>Mon, 05 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/k3s/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Feb 2024 20:33:56 -0500</lastBuildDate>
+    <atom:link href="/tags/k3s/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introducing Nappa and the Next Iteration of My k3s Cluster</title>
       <link>/posts/nappa-intro/</link>
       <pubDate>Mon, 05 Dec 2022 00:00:00 +0000</pubDate>
-      
       <guid>/posts/nappa-intro/</guid>
       <description>&lt;p&gt;It&amp;rsquo;s been almost two years since I built my &lt;a href=&#34;/posts/rpi-k3s-cluster&#34;&gt;first Raspberry Pi-powered k3s cluster&lt;/a&gt;. A lot&amp;rsquo;s changed! There&amp;rsquo;s a new node in the cluster and I&amp;rsquo;ve gone off the deep end switching everything to NixOS. In this post, I&amp;rsquo;ll talk about the new node and some of the nix options that enable it.&lt;/p&gt;</description>
-      <content>&lt;p&gt;It&amp;rsquo;s been almost two years since I built my &lt;a href=&#34;/posts/rpi-k3s-cluster&#34;&gt;first Raspberry Pi-powered k3s cluster&lt;/a&gt;. A lot&amp;rsquo;s changed! There&amp;rsquo;s a new node in the cluster and I&amp;rsquo;ve gone off the deep end switching everything to NixOS. In this post, I&amp;rsquo;ll talk about the new node and some of the nix options that enable it.&lt;/p&gt;
-&lt;h1 id=&#34;nappa-the-control-plane&#34;&gt;Nappa&amp;hellip; the Control Plane?&lt;/h1&gt;
-&lt;p&gt;The new addition to the cluster is &lt;code&gt;nappa&lt;/code&gt;, an x86 NUC that now runs the control plane. Its extra processing power fixes the stability issues I had when the cluster was all Raspberry Pis. It also serves as network gateway (it has two ethernet ports!) and NFS server (for persistent volume storage) for the rest of the cluster. The new diagram looks like this:&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;nappa cluster network setup&#34; src=&#34;/posts/nappa-intro/nappa-diagram.png&#34;&gt;&lt;/p&gt;
-&lt;p&gt;Ok and I also splurged on some new Raspberry Pis 💰. &lt;code&gt;saibaman1&lt;/code&gt; and &lt;code&gt;saibaman2&lt;/code&gt; are now Raspberry Pi 4s with 8GB of memory. More memory, more containers!&lt;/p&gt;
-&lt;h1 id=&#34;setting-up-a-network-gateway-in-nixos&#34;&gt;Setting up a Network Gateway in NixOS&lt;/h1&gt;
-&lt;p&gt;&lt;code&gt;nappa&lt;/code&gt; runs NixOS, which makes it really simple to set up &lt;a href=&#34;https://thekelleys.org.uk/dnsmasq/doc.html&#34;&gt;dnsmasq&lt;/a&gt;. In the config below, I set up a subnet at 192.168.2.x, but only on the ethernet port connected to the Raspberry Pis:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-nix&#34; data-lang=&#34;nix&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;services&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;dnsmasq &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  enable &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  extraConfig &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    interface=enp4s0
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    dhcp-range=192.168.2.10,192.168.2.250,255.255.255.0,12h
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#39;&amp;#39;&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Next, I set up an iptables rule to allow the Raspberry Pis to reach out to the outside network. You can see it in the &lt;code&gt;networking.firewall.extraCommands&lt;/code&gt; option below:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-nix&#34; data-lang=&#34;nix&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;networking&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;firewall &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  enable &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  extraCommands &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    iptables -t nat -A POSTROUTING -o eno1 -j MASQUERADE
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#39;&amp;#39;&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  trustedInterfaces &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [ &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;eno1&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;enp4s0&amp;#34;&lt;/span&gt; ];
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  allowedTCPPortRanges &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [{ from &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; to &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;65535&lt;/span&gt;; }];
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  allowedUDPPortRanges &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [{ from &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; to &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;65535&lt;/span&gt;; }];
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;em&gt;Wait&lt;/em&gt;, am I enabling a firewall just to configure it to open all ports? Yep! Enabling the firewall is a requirement for iptables, but I&amp;rsquo;m opening up all of the ports so it doesn&amp;rsquo;t get in the way of anything I&amp;rsquo;m working on.&lt;/p&gt;
-&lt;h1 id=&#34;k3s-in-nixos&#34;&gt;k3s in NixOS&lt;/h1&gt;
-&lt;p&gt;Enabling k3s is another simple NixOS config option:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-nix&#34; data-lang=&#34;nix&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;services&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;k3s &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  enable &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  role &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;server&amp;#34;&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  extraFlags &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;--advertise-address=192.168.2.1 --node-ip=192.168.2.1 --node-external-ip=192.168.1.4 --flannel-backend=host-gw --flannel-iface=enp4s0&amp;#34;&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Phew, that&amp;rsquo;s a lot of &lt;code&gt;extraFlags&lt;/code&gt;. They&amp;rsquo;re all needed due to &lt;code&gt;nappa&lt;/code&gt;&amp;rsquo;s weird networking setup. Note that k3s has flannel built in. NixOS&amp;rsquo;s &lt;code&gt;service.flannel&lt;/code&gt; option won&amp;rsquo;t do anything here. Speaking of which&amp;hellip;&lt;/p&gt;
-&lt;h2 id=&#34;flannel-f-ups&#34;&gt;Flannel F***-ups&lt;/h2&gt;
-&lt;p&gt;After first setting up this cluster, everything seemed fine but there was some sort of networking issue. HTTP requests sent to services backed by pods running on Raspberry Pi nodes would time out, but they&amp;rsquo;d be fine if the pods were running on &lt;code&gt;nappa&lt;/code&gt;. I initially pointed the blame at the Raspberry Pis, poring through logs and configuration to try to figure out what was happening. But the problem was actually with &lt;code&gt;nappa&lt;/code&gt;, which needed an additional flannel option passed to k3s:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;--flannel-iface&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;enp4s0
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;That tells flannel to use the same ethernet port that the Raspberry Pis are connected to. All better!&lt;/p&gt;
-&lt;h1 id=&#34;thats-it-for-now&#34;&gt;That&amp;rsquo;s it for now!&lt;/h1&gt;
-&lt;p&gt;The full configuration for &lt;code&gt;nappa&lt;/code&gt; (and the rest of the cluster) can be found &lt;a href=&#34;https://github.com/mattbun/nappa-cluster&#34;&gt;here&lt;/a&gt;. In my next post, I&amp;rsquo;ll go through the changes I&amp;rsquo;ve made to the Raspberry Pis. Spoiler alert: they&amp;rsquo;re also on NixOS!&lt;/p&gt;</content>
     </item>
-    
     <item>
       <title>Saibamen Attack! Building a Raspberry Pi Cluster</title>
       <link>/posts/rpi-k3s-cluster/</link>
       <pubDate>Sun, 21 Feb 2021 00:00:00 +0000</pubDate>
-      
       <guid>/posts/rpi-k3s-cluster/</guid>
-      <description>&lt;p&gt;Over the holidays I made a &lt;a href=&#34;https://k3s.io/&#34;&gt;k3s&lt;/a&gt; (that&amp;rsquo;s Kubernetes minus 5) cluster out of Raspberry Pis I had lying around. And while it&amp;rsquo;s &lt;em&gt;extremely&lt;/em&gt; cool, it&amp;rsquo;s also &lt;em&gt;pretty&lt;/em&gt; unstable.&lt;/p&gt;
-&lt;p&gt;In this post, I&amp;rsquo;ll outline what this new cluster looks like and go into detail on how I set it up. At the end, I&amp;rsquo;ll talk a little bit about why I won&amp;rsquo;t be entrusting it with my most important tasks just yet.&lt;/p&gt;</description>
-      <content>&lt;p&gt;Over the holidays I made a &lt;a href=&#34;https://k3s.io/&#34;&gt;k3s&lt;/a&gt; (that&amp;rsquo;s Kubernetes minus 5) cluster out of Raspberry Pis I had lying around. And while it&amp;rsquo;s &lt;em&gt;extremely&lt;/em&gt; cool, it&amp;rsquo;s also &lt;em&gt;pretty&lt;/em&gt; unstable.&lt;/p&gt;
-&lt;p&gt;In this post, I&amp;rsquo;ll outline what this new cluster looks like and go into detail on how I set it up. At the end, I&amp;rsquo;ll talk a little bit about why I won&amp;rsquo;t be entrusting it with my most important tasks just yet.&lt;/p&gt;
-&lt;h1 id=&#34;overview&#34;&gt;Overview&lt;/h1&gt;
-&lt;p&gt;&lt;img alt=&#34;saibamen diagram&#34; src=&#34;/posts/rpi-k3s-cluster/saibamen_diagram.svg&#34;&gt;&lt;/p&gt;
-&lt;p&gt;To keep it simple, this cluster has just two nodes. In keeping with my tradition of naming computers after Dragon Ball Z villains, it&amp;rsquo;s collectively named the &lt;code&gt;saibamen&lt;/code&gt; cluster (after those &lt;a href=&#34;https://dragonball.fandom.com/wiki/Saibamen&#34;&gt;nasty little green aliens&lt;/a&gt; Nappa and Vegeta unleashed on our unsuspecting Z Fighters).&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;saibaman1&lt;/code&gt; -&amp;gt; master node
-&lt;ul&gt;
-&lt;li&gt;Also runs a DHCP server, assigning IP addresses on the cluster network&lt;/li&gt;
-&lt;li&gt;Connected to the outside network over WiFi and shares that connection with the rest of the cluster&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;saibaman2&lt;/code&gt; -&amp;gt; worker node
-&lt;ul&gt;
-&lt;li&gt;Only connected to the cluster network&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;the-hardware&#34;&gt;The Hardware&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;2 x Raspberry Pi 3
-&lt;ul&gt;
-&lt;li&gt;Note that &lt;a href=&#34;https://github.com/kubernetes/kubeadm/issues/253#issuecomment-296738890&#34;&gt;k3s doesn&amp;rsquo;t support ARMv6&lt;/a&gt;, so you need at least a Pi 2. Older Pis like the Pi 1 and Pi Zero aren&amp;rsquo;t supported.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;2 x MicroSD cards&lt;/li&gt;
-&lt;li&gt;1 x Ethernet switch&lt;/li&gt;
-&lt;li&gt;1 x USB power hub (I got &lt;a href=&#34;https://www.amazon.com/gp/product/B00P933OJC&#34;&gt;this one&lt;/a&gt;, though I wonder if this is the culprit for some of the issues I&amp;rsquo;ve had)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;the-software&#34;&gt;The Software&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Raspberry Pi OS (formerly known as raspbian)
-&lt;ul&gt;
-&lt;li&gt;I tried NixOS first (I&amp;rsquo;m a bit of a fanboy) but had some trouble getting it working. Maybe someday!&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;k3s
-&lt;ul&gt;
-&lt;li&gt;&lt;em&gt;Why k3s?&lt;/em&gt; Because it&amp;rsquo;s easy to set up and getting it working on Raspberry Pi is well documented.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;dnsmasq - the DHCP server running on the master node&lt;/li&gt;
-&lt;li&gt;iptables - Used to share wifi connection with the rest of the cluster&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h1 id=&#34;setup&#34;&gt;Setup&lt;/h1&gt;
-&lt;h2 id=&#34;installing-and-configuring-linux&#34;&gt;Installing and Configuring Linux&lt;/h2&gt;
-&lt;p&gt;Do this on both Pis.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;Use your favorite method to install Raspberry Pi OS on the microSD card.&lt;/em&gt; Personally, I like good ol&amp;rsquo; &lt;code&gt;dd&lt;/code&gt;:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo dd bs&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;4M &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;path/to/image.img of&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;/dev/sdX conv&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;fsync
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;You&amp;rsquo;ll likely want to run &lt;code&gt;sudo raspi-config&lt;/code&gt; and change a few things:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-plain&#34; data-lang=&#34;plain&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;In `System Options`,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  * Set a password
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  * Set a hostname
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;In `Interface Options`,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  * Enable SSH access
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;In `Localisation Options`,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  * Set locale
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  * Set timezone
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  * Enable WiFi (on master only)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Install your favorite editor (Vim, obvs)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo apt install vim
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Important!&lt;/strong&gt; Add this line to the end of &lt;code&gt;/boot/cmdline.txt&lt;/code&gt; so k3s can run containers&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Reboot!&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo reboot
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;networking&#34;&gt;Networking&lt;/h2&gt;
-&lt;p&gt;To keep cluster traffic isolated from my home network, the master node serves as a DHCP server and shares its WiFi connection over ethernet. It ends up looking something like this:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Wifi (192.168.1.x) -&amp;gt; saibaman1 -&amp;gt; Ethernet (192.168.2.x) -&amp;gt; saibaman2
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;sharing-a-wifi-connection&#34;&gt;Sharing a WiFi Connection&lt;/h3&gt;
-&lt;p&gt;The following is copied with a few small changes (mostly that I changed it to use &lt;code&gt;192.168.2.x&lt;/code&gt;) from &lt;a href=&#34;https://www.raspberrypi.org/forums/viewtopic.php?t=223295&#34;&gt;this excellent forum post&lt;/a&gt;.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Configure the Pi&amp;rsquo;s WiFi connection. Check out &lt;a href=&#34;https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md&#34;&gt;this guide&lt;/a&gt; for how to do that. Once you&amp;rsquo;ve set up WiFi, you&amp;rsquo;ll probably want to disconnect it from ethernet if it&amp;rsquo;s connected. Running multiple DHCP servers can get weird pretty fast.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Install dnsmasq&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo apt install dnsmasq
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Set a static IP address for &lt;code&gt;eth0&lt;/code&gt;. Open &lt;code&gt;/etc/dhcpcd.conf&lt;/code&gt; and add this to the end:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-conf&#34; data-lang=&#34;conf&#34;&gt;interface eth0
-static ip_address=192.168.2.1/24
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Save or remove the original &lt;code&gt;dnsmasq.conf&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo mv /etc/dnsmasq.conf /etc/dnsmaq.conf.orig
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Open &lt;code&gt;/etc/dnsmasq.conf&lt;/code&gt; and add this:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-conf&#34; data-lang=&#34;conf&#34;&gt;interface=eth0
-dhcp-range=192.168.2.10,192.168.2.250,255.255.255.0,12h
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Open &lt;code&gt;/etc/sysctl.conf&lt;/code&gt; and uncomment&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-conf&#34; data-lang=&#34;conf&#34;&gt;net.ipv4.ip_forward=1
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Open &lt;code&gt;/etc/rc.local&lt;/code&gt; and add this line above &lt;code&gt;exit 0&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;iptables -t nat -A  POSTROUTING -o wlan0 -j MASQUERADE
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Reboot!&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo reboot
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;setting-up-k3s&#34;&gt;Setting up k3s&lt;/h2&gt;
-&lt;h3 id=&#34;install-k3s-on-the-master-node&#34;&gt;Install k3s on the master node&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;code&gt;ssh&lt;/code&gt; into the master pi&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Install &lt;code&gt;k3s&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;curl -sfL https://get.k3s.io | sh -
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Check to see if it&amp;rsquo;s working. Run the following to see what nodes have been added to the cluster, you should see one node:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo kubectl get nodes
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Copy the join token, you&amp;rsquo;ll need this to add nodes to the cluster&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo cat /var/lib/rancher/k3s/server/node-token
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;install-k3s-on-the-worker-node&#34;&gt;Install k3s on the worker node&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;code&gt;ssh&lt;/code&gt; into the worker pi&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Install &lt;code&gt;k3s&lt;/code&gt; and be sure to pass the token you copied earlier and the IP address of the master node:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;curl -sfL http://get.k3s.io | K3S_URL&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;https://192.168.2.1:6443 &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;K3S_TOKEN&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;lt;join-token&amp;gt; sh -
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Once that&amp;rsquo;s done, check to see if it&amp;rsquo;s working. &lt;code&gt;ssh&lt;/code&gt; back into the master node and run the following command. You should see two nodes:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo kubectl get nodes
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;grab-your-kubeconfig&#34;&gt;Grab your kubeconfig&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;code&gt;ssh&lt;/code&gt; into the master node&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Copy its kubeconfig&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo cat /etc/rancher/k3s/k3s.yaml
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Return to the computer you&amp;rsquo;d like to put the kubeconfig onto&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Make a &lt;code&gt;.kube&lt;/code&gt; folder if one doesn&amp;rsquo;t exist already&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mkdir .kube
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Open &lt;code&gt;.kube/config&lt;/code&gt; and paste the contents of the file you copied earlier&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Replace &lt;code&gt;localhost&lt;/code&gt; with the IP address of the master node relative to the computer you&amp;rsquo;re setting this up on:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;server&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;https://192.168.1.x:6443&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Change the permissions of the new file so kubectl won&amp;rsquo;t complain about it (oh &lt;em&gt;and&lt;/em&gt; because it&amp;rsquo;s the right thing to do):&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;chmod &lt;span style=&#34;color:#ae81ff&#34;&gt;600&lt;/span&gt; ~/.kube/config
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Try it out!&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl get nodes
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h1 id=&#34;so-how-is-it&#34;&gt;So How Is It?&lt;/h1&gt;
-&lt;p&gt;Well, let&amp;rsquo;s just say I wouldn&amp;rsquo;t put anything too important on it.&lt;/p&gt;
-&lt;p&gt;k3s crashes when I push the cluster to its limits, like when installing a particularly complex Helm chart. To make matters worse, that crash can put it in a state where it can&amp;rsquo;t start up again. I&amp;rsquo;ve had to reinstall it several times now.&lt;/p&gt;
-&lt;p&gt;I have a couple theories for why this happens.&lt;/p&gt;
-&lt;h2 id=&#34;power-issues&#34;&gt;Power Issues?&lt;/h2&gt;
-&lt;p&gt;Raspberry Pis are notoriously sensitive to power supply issues. Remember that xkcd about how clicking links in a Wikipedia article will eventually lead you to &amp;ldquo;Philosophy&amp;rdquo;? I&amp;rsquo;ve found that debugging any Raspberry Pi issue will eventually lead you to a storefront selling a better power supply. It&amp;rsquo;s weird how that always happens.&lt;/p&gt;
-&lt;p&gt;On one hand, it could be that my USB hub isn&amp;rsquo;t putting out enough power. I didn&amp;rsquo;t really look into it too much to be honest. I didn&amp;rsquo;t feel like buying new usb chargers and making the wiring more obnoxious for something that &lt;em&gt;might&lt;/em&gt; be the issue.&lt;/p&gt;
-&lt;p&gt;I&amp;rsquo;m wondering if one of my Micro USB cables is to blame. Running &lt;code&gt;vcgencmd measure_volts&lt;/code&gt; repeatedly under high CPU usage showed that one of my cables had a lower maximum voltage. I swapped it out and I feel like it&amp;rsquo;s been a bit better but it might just be wishful thinking.&lt;/p&gt;
-&lt;h2 id=&#34;are-my-raspberry-pis-too-slow&#34;&gt;Are My Raspberry Pis Too Slow?&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://medium.com/@ikarus/run-kubernetes-on-your-raspberry-pi-cluster-with-k3s-ac3687d6eb1a&#34;&gt;This article&lt;/a&gt; makes the case that the Raspberry Pis I&amp;rsquo;m using are too slow to reliably run etcd (which is used by k3s to keep track of cluster state). Before the Raspberry Pi 4; Ethernet, USB, and the SD card are all on one USB 2.0 bus. I&amp;rsquo;m likely making this worse by having the same Pi handle both the control plane &lt;em&gt;and&lt;/em&gt; the cluster&amp;rsquo;s network connection.&lt;/p&gt;
-&lt;h2 id=&#34;whatever-its-good-enough&#34;&gt;Whatever, It&amp;rsquo;s Good Enough&lt;/h2&gt;
-&lt;p&gt;Despite all that, this has been a fun project. I built a kubernetes cluster on the cheap, mostly using parts I already had. As long as I don&amp;rsquo;t push it too hard, it works just fine!&lt;/p&gt;</content>
+      <description>&lt;p&gt;Over the holidays I made a &lt;a href=&#34;https://k3s.io/&#34;&gt;k3s&lt;/a&gt; (that&amp;rsquo;s Kubernetes minus 5) cluster out of Raspberry Pis I had lying around. And while it&amp;rsquo;s &lt;em&gt;extremely&lt;/em&gt; cool, it&amp;rsquo;s also &lt;em&gt;pretty&lt;/em&gt; unstable.&lt;/p&gt;&#xA;&lt;p&gt;In this post, I&amp;rsquo;ll outline what this new cluster looks like and go into detail on how I set it up. At the end, I&amp;rsquo;ll talk a little bit about why I won&amp;rsquo;t be entrusting it with my most important tasks just yet.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>
