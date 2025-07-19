@@ -1,8 +1,9 @@
 baseurl = "/"
 languageCode = "en-us"
-theme = "terminal"
+theme = "dotfiles"
 paginate = 5
 enableGitInfo = true
+capitalizeListTitles = false
 
 [params]
   # dir name of your main content (default is `content/posts`).
@@ -46,6 +47,8 @@ enableGitInfo = true
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+  [markup.highlight]
+    noClasses = false
 
 [params.twitter]
   # set Twitter handles for Twitter cards
