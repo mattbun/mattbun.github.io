@@ -21,7 +21,7 @@ jobs:
           nix_path: nixpkgs=channel:nixos-unstable
 
       - name: Build
-        run: nix-shell --run 'make build'
+        run: nix develop --command make build
 
       - name: Create CNAME file
         run: cp CNAME public/CNAME
