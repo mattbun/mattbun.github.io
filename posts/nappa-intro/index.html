@@ -1,291 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-  
-    <title>Introducing Nappa and the Next Iteration of My k3s Cluster :: #!/matt/rathbun</title>
-  
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="It&rsquo;s been almost two years since I built my first Raspberry Pi-powered k3s cluster. A lot&rsquo;s changed! There&rsquo;s a new node in the cluster and I&rsquo;ve gone off the deep end switching everything to NixOS. In this post, I&rsquo;ll talk about the new node and some of the nix options that enable it.
-" />
-<meta name="keywords" content="" />
-<meta name="robots" content="noodp" />
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Introducing Nappa and the Next Iteration of My k3s Cluster | #!/matt/rathbun</title>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css">
 
-<link rel="canonical" href="/posts/nappa-intro/" />
-
-
-
-
-
-
-  
-  
-  
-  
-  
-  <link rel="stylesheet" href="/styles.css">
-
-
-
-
-
-
-
-  <link rel="shortcut icon" href="/img/theme-colors/orange.png">
-  <link rel="apple-touch-icon" href="/img/theme-colors/orange.png">
-
-
-
-<meta name="twitter:card" content="summary" />
-
-  
-    <meta name="twitter:site" content="" />
-  
-    <meta name="twitter:creator" content="Matt Rathbun" />
-
-
-
-<meta property="og:locale" content="en" />
-<meta property="og:type" content="article" />
-<meta property="og:title" content="Introducing Nappa and the Next Iteration of My k3s Cluster">
-<meta property="og:description" content="It&rsquo;s been almost two years since I built my first Raspberry Pi-powered k3s cluster. A lot&rsquo;s changed! There&rsquo;s a new node in the cluster and I&rsquo;ve gone off the deep end switching everything to NixOS. In this post, I&rsquo;ll talk about the new node and some of the nix options that enable it.
-" />
-<meta property="og:url" content="/posts/nappa-intro/" />
-<meta property="og:site_name" content="#!/matt/rathbun" />
-
-  
-    <meta property="og:image" content="/img/favicon/orange.png">
-  
-
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="627">
-
-
-  <meta property="article:published_time" content="2022-12-05 00:00:00 &#43;0000 UTC" />
-
-
-
-
-
-
-
-
-
-
+      <link rel="stylesheet" href="/css/colors.min.73a4fa8b5660037be8ad75523eebd8a911e1d976ef5865a3e6d301d6dce76d85.css" integrity="sha256-c6T6i1ZgA3vorXVSPuvYqRHh2XbvWGWj5tMB1tznbYU=" crossorigin="anonymous">
+      <link rel="stylesheet" href="/css/main.min.3f68ed0ec8a35a8e6451d05944a3de0245be53651949cf19030f6db7f6d71788.css" integrity="sha256-P2jtDsijWo5kUdBZRKPeAkW&#43;U2UZSc8ZAw9tt/bXF4g=" crossorigin="anonymous">
+      <link rel="stylesheet" href="/css/syntax.min.b840b9ed282a8d467cd5fb90af17571bda7b0cdcca46af05b6f2e9ac8b0377f9.css" integrity="sha256-uEC57SgqjUZ81fuQrxdXG9p7DNzKRq8FtvLprIsDd/k=" crossorigin="anonymous">
 
 
 </head>
-<body class="orange">
+<body>
+  <header>
+    <div class="nav">
+  <a href="/" class="accent">#!/matt/rathbun</a>
+  <a href="/posts" class="left">/posts</a>
 
+  <a href="https://github.com/mattbun" class="right">github</a>
+</div>
 
-<div class="container center headings--one-size">
-
-  <header class="header">
-  <div class="header__inner">
-    <div class="header__logo">
-      <a href="/">
-  <div class="logo">
-    #!/matt/rathbun
-  </div>
-</a>
-
-    </div>
+  </header>
+  <main>
     
-      <ul class="menu menu--mobile">
-  <li class="menu__trigger">Menu&nbsp;▾</li>
-  <li>
-    <ul class="menu__dropdown">
-      
-        
-          <li><a href="/about">about me</a></li>
-        
-      
-        
-          <li><a href="/posts">posts</a></li>
-        
-      
-        
-          <li><a href="https://github.com/mattbun">github</a></li>
-        
-      
-        
-          <li><a href="https://linkedin.com/in/matthewrathbun">linkedin</a></li>
-        
-      
-      
-    </ul>
-  </li>
-</ul>
-
-    
-    
-  </div>
-  
-    <nav class="navigation-menu">
-  <ul class="navigation-menu__inner menu--desktop">
-    
-      
-        
-          <li><a href="/about">about me</a></li>
-        
-      
-        
-          <li><a href="/posts">posts</a></li>
-        
-      
-        
-          <li><a href="https://github.com/mattbun">github</a></li>
-        
-      
-        
-          <li><a href="https://linkedin.com/in/matthewrathbun">linkedin</a></li>
-        
-      
-      
-    
-  </ul>
-</nav>
+  <h1>Introducing Nappa and the Next Iteration of My k3s Cluster</h1>
 
   
-</header>
-
-
-  <div class="content">
-    
-<article class="post">
-  <h1 class="post-title">
-    <a href="/posts/nappa-intro/">Introducing Nappa and the Next Iteration of My k3s Cluster</a>
-  </h1>
-  <div class="post-meta">
-    
-      <time class="post-date">
-        2022-12-05 ::
-        
-      </time>
-    
-    
-      <span class="post-author">Matt Rathbun</span>
-    
-    
-  </div>
-
   
-    <span class="post-tags">
-      
-      #<a href="/tags/nappa/">nappa</a>&nbsp;
-      
-      #<a href="/tags/nix/">nix</a>&nbsp;
-      
-      #<a href="/tags/nixos/">nixos</a>&nbsp;
-      
-      #<a href="/tags/k3s/">k3s</a>&nbsp;
-      
-      #<a href="/tags/kubernetes/">kubernetes</a>&nbsp;
-      
-    </span>
+  <time datetime="2022-12-05T00:00:00&#43;00:00">December 5, 2022</time>
+  |
   
-  
+    <a class="tag" href="/tags/nappa/">#nappa</a>
+    <a class="tag" href="/tags/nix/">#nix</a>
+    <a class="tag" href="/tags/nixos/">#nixos</a>
+    <a class="tag" href="/tags/k3s/">#k3s</a>
+    <a class="tag" href="/tags/kubernetes/">#kubernetes</a>
 
 
-  
-
-  <div class="post-content"><div>
-        <p>It&rsquo;s been almost two years since I built my <a href="/posts/rpi-k3s-cluster">first Raspberry Pi-powered k3s cluster</a>. A lot&rsquo;s changed! There&rsquo;s a new node in the cluster and I&rsquo;ve gone off the deep end switching everything to NixOS. In this post, I&rsquo;ll talk about the new node and some of the nix options that enable it.</p>
-<h1 id="nappa-the-control-plane">Nappa&hellip; the Control Plane?<a href="#nappa-the-control-plane" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+  <br>
+  <br>
+  <p>It&rsquo;s been almost two years since I built my <a href="/posts/rpi-k3s-cluster">first Raspberry Pi-powered k3s cluster</a>. A lot&rsquo;s changed! There&rsquo;s a new node in the cluster and I&rsquo;ve gone off the deep end switching everything to NixOS. In this post, I&rsquo;ll talk about the new node and some of the nix options that enable it.</p>
+<h1 id="nappa-the-control-plane">Nappa&hellip; the Control Plane?</h1>
 <p>The new addition to the cluster is <code>nappa</code>, an x86 NUC that now runs the control plane. Its extra processing power fixes the stability issues I had when the cluster was all Raspberry Pis. It also serves as network gateway (it has two ethernet ports!) and NFS server (for persistent volume storage) for the rest of the cluster. The new diagram looks like this:</p>
-<p><img alt="nappa cluster network setup" src="/posts/nappa-intro/nappa-diagram.png"></p>
+<p><img src="/posts/nappa-intro/nappa-diagram.png" alt="nappa cluster network setup"></p>
 <p>Ok and I also splurged on some new Raspberry Pis 💰. <code>saibaman1</code> and <code>saibaman2</code> are now Raspberry Pi 4s with 8GB of memory. More memory, more containers!</p>
-<h1 id="setting-up-a-network-gateway-in-nixos">Setting up a Network Gateway in NixOS<a href="#setting-up-a-network-gateway-in-nixos" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<h1 id="setting-up-a-network-gateway-in-nixos">Setting up a Network Gateway in NixOS</h1>
 <p><code>nappa</code> runs NixOS, which makes it really simple to set up <a href="https://thekelleys.org.uk/dnsmasq/doc.html">dnsmasq</a>. In the config below, I set up a subnet at 192.168.2.x, but only on the ethernet port connected to the Raspberry Pis:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nix" data-lang="nix"><span style="display:flex;"><span>services<span style="color:#f92672">.</span>dnsmasq <span style="color:#960050;background-color:#1e0010">=</span> {
-</span></span><span style="display:flex;"><span>  enable <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
-</span></span><span style="display:flex;"><span>  extraConfig <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    interface=enp4s0
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    dhcp-range=192.168.2.10,192.168.2.250,255.255.255.0,12h
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#39;&#39;</span>;
-</span></span><span style="display:flex;"><span>};
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl"><span class="n">services</span><span class="o">.</span><span class="n">dnsmasq</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">enable</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">extraConfig</span> <span class="o">=</span> <span class="s1">&#39;&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">    interface=enp4s0
+</span></span></span><span class="line"><span class="cl"><span class="s1">    dhcp-range=192.168.2.10,192.168.2.250,255.255.255.0,12h
+</span></span></span><span class="line"><span class="cl"><span class="s1">  &#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
 </span></span></code></pre></div><p>Next, I set up an iptables rule to allow the Raspberry Pis to reach out to the outside network. You can see it in the <code>networking.firewall.extraCommands</code> option below:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nix" data-lang="nix"><span style="display:flex;"><span>networking<span style="color:#f92672">.</span>firewall <span style="color:#960050;background-color:#1e0010">=</span> {
-</span></span><span style="display:flex;"><span>  enable <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
-</span></span><span style="display:flex;"><span>  extraCommands <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    iptables -t nat -A POSTROUTING -o eno1 -j MASQUERADE
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#39;&#39;</span>;
-</span></span><span style="display:flex;"><span>  trustedInterfaces <span style="color:#f92672">=</span> [ <span style="color:#e6db74">&#34;eno1&#34;</span> <span style="color:#e6db74">&#34;enp4s0&#34;</span> ];
-</span></span><span style="display:flex;"><span>  allowedTCPPortRanges <span style="color:#f92672">=</span> [{ from <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; to <span style="color:#f92672">=</span> <span style="color:#ae81ff">65535</span>; }];
-</span></span><span style="display:flex;"><span>  allowedUDPPortRanges <span style="color:#f92672">=</span> [{ from <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; to <span style="color:#f92672">=</span> <span style="color:#ae81ff">65535</span>; }];
-</span></span><span style="display:flex;"><span>};
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl"><span class="n">networking</span><span class="o">.</span><span class="n">firewall</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">enable</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">extraCommands</span> <span class="o">=</span> <span class="s1">&#39;&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">    iptables -t nat -A POSTROUTING -o eno1 -j MASQUERADE
+</span></span></span><span class="line"><span class="cl"><span class="s1">  &#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">trustedInterfaces</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&#34;eno1&#34;</span> <span class="s2">&#34;enp4s0&#34;</span> <span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="n">allowedTCPPortRanges</span> <span class="o">=</span> <span class="p">[{</span> <span class="n">from</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">to</span> <span class="o">=</span> <span class="mi">65535</span><span class="p">;</span> <span class="p">}];</span>
+</span></span><span class="line"><span class="cl">  <span class="n">allowedUDPPortRanges</span> <span class="o">=</span> <span class="p">[{</span> <span class="n">from</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">to</span> <span class="o">=</span> <span class="mi">65535</span><span class="p">;</span> <span class="p">}];</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
 </span></span></code></pre></div><p><em>Wait</em>, am I enabling a firewall just to configure it to open all ports? Yep! Enabling the firewall is a requirement for iptables, but I&rsquo;m opening up all of the ports so it doesn&rsquo;t get in the way of anything I&rsquo;m working on.</p>
-<h1 id="k3s-in-nixos">k3s in NixOS<a href="#k3s-in-nixos" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<h1 id="k3s-in-nixos">k3s in NixOS</h1>
 <p>Enabling k3s is another simple NixOS config option:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nix" data-lang="nix"><span style="display:flex;"><span>services<span style="color:#f92672">.</span>k3s <span style="color:#960050;background-color:#1e0010">=</span> {
-</span></span><span style="display:flex;"><span>  enable <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
-</span></span><span style="display:flex;"><span>  role <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;server&#34;</span>;
-</span></span><span style="display:flex;"><span>  extraFlags <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;--advertise-address=192.168.2.1 --node-ip=192.168.2.1 --node-external-ip=192.168.1.4 --flannel-backend=host-gw --flannel-iface=enp4s0&#34;</span>;
-</span></span><span style="display:flex;"><span>};
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl"><span class="n">services</span><span class="o">.</span><span class="n">k3s</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">enable</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">role</span> <span class="o">=</span> <span class="s2">&#34;server&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">extraFlags</span> <span class="o">=</span> <span class="s2">&#34;--advertise-address=192.168.2.1 --node-ip=192.168.2.1 --node-external-ip=192.168.1.4 --flannel-backend=host-gw --flannel-iface=enp4s0&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
 </span></span></code></pre></div><p>Phew, that&rsquo;s a lot of <code>extraFlags</code>. They&rsquo;re all needed due to <code>nappa</code>&rsquo;s weird networking setup. Note that k3s has flannel built in. NixOS&rsquo;s <code>service.flannel</code> option won&rsquo;t do anything here. Speaking of which&hellip;</p>
-<h2 id="flannel-f-ups">Flannel F***-ups<a href="#flannel-f-ups" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h2 id="flannel-f-ups">Flannel F***-ups</h2>
 <p>After first setting up this cluster, everything seemed fine but there was some sort of networking issue. HTTP requests sent to services backed by pods running on Raspberry Pi nodes would time out, but they&rsquo;d be fine if the pods were running on <code>nappa</code>. I initially pointed the blame at the Raspberry Pis, poring through logs and configuration to try to figure out what was happening. But the problem was actually with <code>nappa</code>, which needed an additional flannel option passed to k3s:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>--flannel-iface<span style="color:#f92672">=</span>enp4s0
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">--flannel-iface<span class="o">=</span>enp4s0
 </span></span></code></pre></div><p>That tells flannel to use the same ethernet port that the Raspberry Pis are connected to. All better!</p>
-<h1 id="thats-it-for-now">That&rsquo;s it for now!<a href="#thats-it-for-now" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<h1 id="thats-it-for-now">That&rsquo;s it for now!</h1>
 <p>The full configuration for <code>nappa</code> (and the rest of the cluster) can be found <a href="https://github.com/mattbun/nappa-cluster">here</a>. In my next post, I&rsquo;ll go through the changes I&rsquo;ve made to the Raspberry Pis. Spoiler alert: they&rsquo;re also on NixOS!</p>
-      </div></div>
 
-  
-    
-<div class="pagination">
-    <div class="pagination__title">
-        <span class="pagination__title-h">Read other posts</span>
-        <hr />
-    </div>
-    <div class="pagination__buttons">
-        
-        
-        <span class="button next">
-            <a href="/posts/nix-arch/">
-                <span class="button__text">Installing Nix and Home Manager in Arch Linux</span>
-                <span class="button__icon">→</span>
-            </a>
-        </span>
-        
-    </div>
-</div>
+  </main>
+  <footer>
+    <p>Copyright 2025 Matt Rathbun. Made with <a href="https://gohugo.io/"> Hugo </a> and <a href="https://0x96f.dev/theme">0x96f</a>.</p>
 
-  
-
-  
-    
-
-  
-</article>
-
-  </div>
-
-  
-    <footer class="footer">
-  <div class="footer__inner">
-    
-      <div class="copyright copyright--user">
-        <span>&copy; 2020 Matt Rathbun</span>
-    
-      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
-      </div>
-  </div>
-</footer>
-
-
-
-
-
-
-<script type="text/javascript" src="/bundle.min.js"></script>
-
-
-
-
-
-  
-</div>
-
+  </footer>
 </body>
 </html>

@@ -1,117 +1,27 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Nix on #!/matt/rathbun</title>
+    <title>nix on #!/matt/rathbun</title>
     <link>/tags/nix/</link>
-    <description>Recent content in Nix on #!/matt/rathbun</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in nix on #!/matt/rathbun</description>
+    <generator>Hugo</generator>
     <language>en</language>
     <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
-    <lastBuildDate>Mon, 05 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/nix/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Feb 2024 20:33:56 -0500</lastBuildDate>
+    <atom:link href="/tags/nix/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introducing Nappa and the Next Iteration of My k3s Cluster</title>
       <link>/posts/nappa-intro/</link>
       <pubDate>Mon, 05 Dec 2022 00:00:00 +0000</pubDate>
-      
       <guid>/posts/nappa-intro/</guid>
       <description>&lt;p&gt;It&amp;rsquo;s been almost two years since I built my &lt;a href=&#34;/posts/rpi-k3s-cluster&#34;&gt;first Raspberry Pi-powered k3s cluster&lt;/a&gt;. A lot&amp;rsquo;s changed! There&amp;rsquo;s a new node in the cluster and I&amp;rsquo;ve gone off the deep end switching everything to NixOS. In this post, I&amp;rsquo;ll talk about the new node and some of the nix options that enable it.&lt;/p&gt;</description>
-      <content>&lt;p&gt;It&amp;rsquo;s been almost two years since I built my &lt;a href=&#34;/posts/rpi-k3s-cluster&#34;&gt;first Raspberry Pi-powered k3s cluster&lt;/a&gt;. A lot&amp;rsquo;s changed! There&amp;rsquo;s a new node in the cluster and I&amp;rsquo;ve gone off the deep end switching everything to NixOS. In this post, I&amp;rsquo;ll talk about the new node and some of the nix options that enable it.&lt;/p&gt;
-&lt;h1 id=&#34;nappa-the-control-plane&#34;&gt;Nappa&amp;hellip; the Control Plane?&lt;/h1&gt;
-&lt;p&gt;The new addition to the cluster is &lt;code&gt;nappa&lt;/code&gt;, an x86 NUC that now runs the control plane. Its extra processing power fixes the stability issues I had when the cluster was all Raspberry Pis. It also serves as network gateway (it has two ethernet ports!) and NFS server (for persistent volume storage) for the rest of the cluster. The new diagram looks like this:&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;nappa cluster network setup&#34; src=&#34;/posts/nappa-intro/nappa-diagram.png&#34;&gt;&lt;/p&gt;
-&lt;p&gt;Ok and I also splurged on some new Raspberry Pis 💰. &lt;code&gt;saibaman1&lt;/code&gt; and &lt;code&gt;saibaman2&lt;/code&gt; are now Raspberry Pi 4s with 8GB of memory. More memory, more containers!&lt;/p&gt;
-&lt;h1 id=&#34;setting-up-a-network-gateway-in-nixos&#34;&gt;Setting up a Network Gateway in NixOS&lt;/h1&gt;
-&lt;p&gt;&lt;code&gt;nappa&lt;/code&gt; runs NixOS, which makes it really simple to set up &lt;a href=&#34;https://thekelleys.org.uk/dnsmasq/doc.html&#34;&gt;dnsmasq&lt;/a&gt;. In the config below, I set up a subnet at 192.168.2.x, but only on the ethernet port connected to the Raspberry Pis:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-nix&#34; data-lang=&#34;nix&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;services&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;dnsmasq &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  enable &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  extraConfig &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    interface=enp4s0
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    dhcp-range=192.168.2.10,192.168.2.250,255.255.255.0,12h
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#39;&amp;#39;&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Next, I set up an iptables rule to allow the Raspberry Pis to reach out to the outside network. You can see it in the &lt;code&gt;networking.firewall.extraCommands&lt;/code&gt; option below:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-nix&#34; data-lang=&#34;nix&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;networking&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;firewall &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  enable &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  extraCommands &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    iptables -t nat -A POSTROUTING -o eno1 -j MASQUERADE
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#39;&amp;#39;&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  trustedInterfaces &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [ &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;eno1&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;enp4s0&amp;#34;&lt;/span&gt; ];
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  allowedTCPPortRanges &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [{ from &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; to &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;65535&lt;/span&gt;; }];
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  allowedUDPPortRanges &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [{ from &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; to &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;65535&lt;/span&gt;; }];
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;em&gt;Wait&lt;/em&gt;, am I enabling a firewall just to configure it to open all ports? Yep! Enabling the firewall is a requirement for iptables, but I&amp;rsquo;m opening up all of the ports so it doesn&amp;rsquo;t get in the way of anything I&amp;rsquo;m working on.&lt;/p&gt;
-&lt;h1 id=&#34;k3s-in-nixos&#34;&gt;k3s in NixOS&lt;/h1&gt;
-&lt;p&gt;Enabling k3s is another simple NixOS config option:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-nix&#34; data-lang=&#34;nix&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;services&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;k3s &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  enable &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  role &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;server&amp;#34;&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  extraFlags &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;--advertise-address=192.168.2.1 --node-ip=192.168.2.1 --node-external-ip=192.168.1.4 --flannel-backend=host-gw --flannel-iface=enp4s0&amp;#34;&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Phew, that&amp;rsquo;s a lot of &lt;code&gt;extraFlags&lt;/code&gt;. They&amp;rsquo;re all needed due to &lt;code&gt;nappa&lt;/code&gt;&amp;rsquo;s weird networking setup. Note that k3s has flannel built in. NixOS&amp;rsquo;s &lt;code&gt;service.flannel&lt;/code&gt; option won&amp;rsquo;t do anything here. Speaking of which&amp;hellip;&lt;/p&gt;
-&lt;h2 id=&#34;flannel-f-ups&#34;&gt;Flannel F***-ups&lt;/h2&gt;
-&lt;p&gt;After first setting up this cluster, everything seemed fine but there was some sort of networking issue. HTTP requests sent to services backed by pods running on Raspberry Pi nodes would time out, but they&amp;rsquo;d be fine if the pods were running on &lt;code&gt;nappa&lt;/code&gt;. I initially pointed the blame at the Raspberry Pis, poring through logs and configuration to try to figure out what was happening. But the problem was actually with &lt;code&gt;nappa&lt;/code&gt;, which needed an additional flannel option passed to k3s:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;--flannel-iface&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;enp4s0
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;That tells flannel to use the same ethernet port that the Raspberry Pis are connected to. All better!&lt;/p&gt;
-&lt;h1 id=&#34;thats-it-for-now&#34;&gt;That&amp;rsquo;s it for now!&lt;/h1&gt;
-&lt;p&gt;The full configuration for &lt;code&gt;nappa&lt;/code&gt; (and the rest of the cluster) can be found &lt;a href=&#34;https://github.com/mattbun/nappa-cluster&#34;&gt;here&lt;/a&gt;. In my next post, I&amp;rsquo;ll go through the changes I&amp;rsquo;ve made to the Raspberry Pis. Spoiler alert: they&amp;rsquo;re also on NixOS!&lt;/p&gt;</content>
     </item>
-    
     <item>
       <title>Installing Nix and Home Manager in Arch Linux</title>
       <link>/posts/nix-arch/</link>
       <pubDate>Tue, 04 Oct 2022 00:00:00 +0000</pubDate>
-      
       <guid>/posts/nix-arch/</guid>
-      <description>&lt;p&gt;Hi, I&amp;rsquo;m Matt and I&amp;rsquo;m one of those masochists who uses a chromebook as their personal development machine (not work though, I&amp;rsquo;m not &lt;em&gt;that&lt;/em&gt; crazy). A cool thing about Chrome OS&amp;rsquo;s Linux support is that you can swap the default, &lt;em&gt;boring&lt;/em&gt; Debian container for any LXC image. &lt;a href=&#34;https://wiki.archlinux.org/title/Chrome_OS_devices/Crostini&#34;&gt;Here&amp;rsquo;s an archwiki page on how to swap it to Arch!&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;A not-so-cool thing about that LXC setup is that there isn&amp;rsquo;t a NixOS LXC image available 😢. Instead, I set up an Arch Linux container with Nix and Home Manager. Best of both worlds I guess? Here&amp;rsquo;s how to do it.&lt;/p&gt;</description>
-      <content>&lt;p&gt;Hi, I&amp;rsquo;m Matt and I&amp;rsquo;m one of those masochists who uses a chromebook as their personal development machine (not work though, I&amp;rsquo;m not &lt;em&gt;that&lt;/em&gt; crazy). A cool thing about Chrome OS&amp;rsquo;s Linux support is that you can swap the default, &lt;em&gt;boring&lt;/em&gt; Debian container for any LXC image. &lt;a href=&#34;https://wiki.archlinux.org/title/Chrome_OS_devices/Crostini&#34;&gt;Here&amp;rsquo;s an archwiki page on how to swap it to Arch!&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;A not-so-cool thing about that LXC setup is that there isn&amp;rsquo;t a NixOS LXC image available 😢. Instead, I set up an Arch Linux container with Nix and Home Manager. Best of both worlds I guess? Here&amp;rsquo;s how to do it.&lt;/p&gt;
-&lt;h1 id=&#34;what-were-setting-up&#34;&gt;What we&amp;rsquo;re setting up&lt;/h1&gt;
-&lt;p&gt;In these instructions, I&amp;rsquo;ll be setting up &lt;code&gt;nix&lt;/code&gt; and &lt;code&gt;home-manager&lt;/code&gt;. This setup doesn&amp;rsquo;t let you configure system-level things in nix like in NixOS, but you &lt;em&gt;can&lt;/em&gt; configure things for your user using &lt;code&gt;home-manager&lt;/code&gt;. If you set up &lt;a href=&#34;https://github.com/nix-community/nix-direnv&#34;&gt;nix-direnv&lt;/a&gt; in your home-manager config, you can add nix configurations for specific directories.&lt;/p&gt;
-&lt;p&gt;This should work for any Arch Linux install, not just my weird LXC image.&lt;/p&gt;
-&lt;h1 id=&#34;lets-go&#34;&gt;Let&amp;rsquo;s go!&lt;/h1&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Install nix&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo pacman -S nix
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Enable and start &lt;code&gt;nix-daemon&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo systemctl enable nix-daemon
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo systemctl start nix-daemon
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Add your user to the &lt;code&gt;nix-users&lt;/code&gt; group&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo gpasswd -a &amp;lt;user&amp;gt; nix-users
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Log out and back in again for the group change to take effect&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Add &lt;code&gt;nixpkgs&lt;/code&gt; and &lt;code&gt;home-manager&lt;/code&gt; channels&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nix-channel --add https://nixos.org/channels/nixpkgs-unstable
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nix-channel --update
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Install home-manager&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;export NIX_PATH&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;NIX_PATH:+:$NIX_PATH&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nix-shell &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;lt;home-manager&amp;gt;&amp;#39;&lt;/span&gt; -A install
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Take a look at &lt;code&gt;~/.config/nixpkgs/home.nix&lt;/code&gt;, make any desired changes, then run&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;home-manager switch
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;And that should be it! Enjoy!&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;A nix shell running &amp;lsquo;cat /etc/os-release | cowsay&amp;rsquo;&#34; src=&#34;/posts/nix-arch/nix-arch-cowsay.png&#34;&gt;&lt;/p&gt;
-&lt;h1 id=&#34;for-more-info&#34;&gt;For more info&amp;hellip;&lt;/h1&gt;
-&lt;p&gt;These instructions are basically a condensed version of these two pages:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://wiki.archlinux.org/title/Nix&#34;&gt;Nix - ArchWiki&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://nix-community.github.io/home-manager/index.html#sec-install-standalone&#34;&gt;Home Manager standalone installation&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content>
+      <description>&lt;p&gt;Hi, I&amp;rsquo;m Matt and I&amp;rsquo;m one of those masochists who uses a chromebook as their personal development machine (not work though, I&amp;rsquo;m not &lt;em&gt;that&lt;/em&gt; crazy). A cool thing about Chrome OS&amp;rsquo;s Linux support is that you can swap the default, &lt;em&gt;boring&lt;/em&gt; Debian container for any LXC image. &lt;a href=&#34;https://wiki.archlinux.org/title/Chrome_OS_devices/Crostini&#34;&gt;Here&amp;rsquo;s an archwiki page on how to swap it to Arch!&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;A not-so-cool thing about that LXC setup is that there isn&amp;rsquo;t a NixOS LXC image available 😢. Instead, I set up an Arch Linux container with Nix and Home Manager. Best of both worlds I guess? Here&amp;rsquo;s how to do it.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>
