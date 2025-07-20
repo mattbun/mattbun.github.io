@@ -11,4 +11,4 @@ themes/dotfiles/assets/css/colors.css: flake.nix flake.lock
 new:
 	@DATE=$(shell date +%Y-%m-%d); \
 	SLUG=$(shell read -p "slug? " slug; echo $$slug); \
-	hugo new "posts/$$DATE-$$SLUG"
+	nix develop --command hugo new "posts/$$DATE-$$SLUG"
