@@ -59,12 +59,12 @@ img {
 }
 
 .nav a.accent {
-  background-color: var(--base09);
+  background-color: var(--accent-color);
   color: var(--base00);
 }
 
 .nav a.accent:hover {
-  background-color: var(--base0E);
+  background-color: var(--accent-hover-color);
 }
 
 .nav a.left:hover {
