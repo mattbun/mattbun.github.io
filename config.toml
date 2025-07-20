@@ -1,7 +1,7 @@
 baseurl = "/"
 languageCode = "en-us"
 theme = "dotfiles"
-enableGitInfo = true
+enableGitInfo = false # Doesn't work in nix because nix excludes .git from build env
 capitalizeListTitles = false
 
 # Add support for embedding HTML in markdown files
