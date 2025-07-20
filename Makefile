@@ -4,10 +4,9 @@ develop: themes/dotfiles/assets/css/colors.css
 build:
 	nix build .
 
+MAKEFLAGS += --check-symlink-times
 themes/dotfiles/assets/css/colors.css: flake.nix flake.lock
-	nix build .#colors
-	cp result ./themes/dotfiles/assets/css/colors.css
-	chmod 644 ./themes/dotfiles/assets/css/colors.css
+	nix build .#colors -o ./themes/dotfiles/assets/css/colors.css
 
 new:
 	@DATE=$(shell date +%Y-%m-%d); \
