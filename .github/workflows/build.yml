@@ -23,9 +23,6 @@ jobs:
       - name: Build
         run: nix build .
 
-      - name: Create CNAME file
-        run: cp CNAME public/CNAME
-
       - name: Publish to test branch
         uses: peaceiris/actions-gh-pages@v4
         with:

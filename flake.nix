@@ -64,6 +64,7 @@
           buildPhase = ''
             cp ${pkgs.writeText "colors.css" colorsCss} themes/dotfiles/assets/css/colors.css
             ${pkgs.hugo}/bin/hugo
+            cp CNAME public/CNAME
           '';
 
           installPhase = "cp -r public $out";
