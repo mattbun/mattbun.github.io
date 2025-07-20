@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
-    <lastBuildDate>Sat, 19 Jul 2025 17:46:49 -0400</lastBuildDate>
+    <lastBuildDate>Sun, 12 Feb 2023 00:00:00 +0000</lastBuildDate>
     <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Building Custom NixOS Images for the Raspberry Pi</title>
+      <link>/posts/building-nixos-rpi-images/</link>
+      <pubDate>Sun, 12 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>/posts/building-nixos-rpi-images/</guid>
+      <description>&lt;p&gt;When installing NixOS on a computer, I&amp;rsquo;ve generally followed the same process:&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;Boot NixOS installer&lt;/li&gt;&#xA;&lt;li&gt;Format and mount partitions&lt;/li&gt;&#xA;&lt;li&gt;Copy &lt;code&gt;configuration.nix&lt;/code&gt; into place&lt;/li&gt;&#xA;&lt;li&gt;Run the installer&lt;/li&gt;&#xA;&lt;li&gt;Reboot&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;This works fine for most of my computers, but with a Raspberry Pi you don&amp;rsquo;t generally boot an installer off a USB stick. Instead, you install the operating system (like a Raspberry Pi OS image) directly to its SD card and boot that.&lt;/p&gt;&#xA;&lt;p&gt;This is another place where NixOS &lt;em&gt;shines&lt;/em&gt;. Let&amp;rsquo;s talk about building custom NixOS images for the Raspberry Pi.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Introducing Nappa and the Next Iteration of My k3s Cluster</title>
       <link>/posts/nappa-intro/</link>
