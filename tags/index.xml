@@ -7,8 +7,36 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
-    <lastBuildDate>Sun, 12 Feb 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 23 Nov 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>go</title>
+      <link>/tags/go/</link>
+      <pubDate>Sun, 23 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/go/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>linux</title>
+      <link>/tags/linux/</link>
+      <pubDate>Sun, 23 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/linux/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>smtn</title>
+      <link>/tags/smtn/</link>
+      <pubDate>Sun, 23 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/smtn/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>smtp-pushover</title>
+      <link>/tags/smtp-pushover/</link>
+      <pubDate>Sun, 23 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/smtp-pushover/</guid>
+      <description></description>
+    </item>
     <item>
       <title>nix</title>
       <link>/tags/nix/</link>
@@ -63,13 +91,6 @@
       <link>/tags/home-manager/</link>
       <pubDate>Tue, 04 Oct 2022 00:00:00 +0000</pubDate>
       <guid>/tags/home-manager/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>linux</title>
-      <link>/tags/linux/</link>
-      <pubDate>Tue, 04 Oct 2022 00:00:00 +0000</pubDate>
-      <guid>/tags/linux/</guid>
       <description></description>
     </item>
     <item>

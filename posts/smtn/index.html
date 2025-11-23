@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>smtn | #!/matt/rathbun</title>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css">
+
+      <link rel="stylesheet" href="/css/colors.min.92abca9f41b52525c2ff2580c9f497515ac5dbff51933616a7596178d5f4d6de.css" integrity="sha256-kqvKn0G1JSXC/yWAyfSXUVrF2/9RkzYWp1lheNX01t4=" crossorigin="anonymous">
+      <link rel="stylesheet" href="/css/main.min.88edba46de268a85d5e454a937ada407a32f9054be4b10ce2e27bc80b0e7eac4.css" integrity="sha256-iO26Rt4mioXV5FSpN62kB6MvkFS&#43;SxDOLie8gLDn6sQ=" crossorigin="anonymous">
+      <link rel="stylesheet" href="/css/syntax.min.b840b9ed282a8d467cd5fb90af17571bda7b0cdcca46af05b6f2e9ac8b0377f9.css" integrity="sha256-uEC57SgqjUZ81fuQrxdXG9p7DNzKRq8FtvLprIsDd/k=" crossorigin="anonymous">
+
+
+</head>
+<body>
+  <header>
+    <div class="nav">
+  <a href="/" class="accent">#!/matt/rathbun</a>
+  <a href="/posts" class="left">/posts</a>
+
+  <a href="https://github.com/mattbun" class="right">github</a>
+</div>
+
+  </header>
+  <main>
+    
+  <h1>smtn</h1>
+
+  
+  
+  <time datetime="2025-11-23T00:00:00&#43;00:00">November 23, 2025</time>
+  |
+  
+    <a class="tag" href="/tags/smtn/">#smtn</a>
+    <a class="tag" href="/tags/smtp-pushover/">#smtp-pushover</a>
+    <a class="tag" href="/tags/go/">#go</a>
+    <a class="tag" href="/tags/linux/">#linux</a>
+
+
+  <br>
+  <br>
+  <p>One of the unsung heroes of my personal Linux server setups is a simple Node.js application I wrote called <a href="https://github.com/mattbun/smtp-pushover">smtp-pushover</a>. It&rsquo;s a simple <a href="https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol">SMTP</a> (email sending) server that forwards any email it receives to <a href="https://pushover.net/">Pushover</a>.</p>
+<p>I recently rewrote it in Go and published the new version as <a href="https://github.com/mattbun/smtn">smtn</a>. It supports other notification services now!</p>
+<h2 id="what-do-i-use-this-for">What do I use this for?</h2>
+<p>I primarily use this for getting smartd, ZED, apcupsd, etc. messages to my phone in a format I&rsquo;ll actually see.</p>
+<p>It also works for quickly sending notifications from the command line since Linux distros tend to include some sort of tool for sending email via SMTP. I have a script called <code>notify</code> that&rsquo;s basically just this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Usage: `notify &#34;title&#34; &#34;body&#34;`</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> -e <span class="s2">&#34;Subject:</span><span class="nv">$1</span><span class="s2">\n\n</span><span class="nv">$2</span><span class="s2">&#34;</span> <span class="p">|</span> msmtp --from notify@localhost --host localhost whatever@localhost
+</span></span></code></pre></div><h2 id="why-did-i-rewrite-it">Why did I rewrite it?</h2>
+<p>Mostly because I&rsquo;ve been writing in Go lately and I felt like I&rsquo;ve learned enough since smtp-pushover to do a better job with it. Go also feels like a better fit for this sort of tool.</p>
+<p>But I also made a few improvements&hellip;</p>
+<h3 id="new-features">New features</h3>
+<ul>
+<li><strong>Support for other push notification services&hellip; including webhooks!</strong> I think I could link this to <a href="https://nodered.org/">Node-RED</a> to do all sorts of stuff, like turning on/off lights or forwarding to a LLM to summarize the message.</li>
+<li><strong>The new webhook support also allowed me to write an e2e/integration test!</strong> And it runs in CI! I have a test that starts a web server, starts smtn configured to send a webhook to the web server, and then verifies that the webhook is called when a message is sent to smtn.</li>
+</ul>
+<h2 id="other-thoughts">Other thoughts</h2>
+<h3 id="i-really-like-urfavecli">I really like urfave/cli</h3>
+<p>smtn uses <a href="https://github.com/urfave/cli">urfave/cli</a> and I&rsquo;ve really enjoyed it. It made it easy to make matching command line arguments and environment variable options.</p>
+<h3 id="naming-is-hard">Naming is hard</h3>
+<p>When I first started working on this, I called it &ldquo;smtprrr&rdquo; like the combination of SMTP and the shoutrrr module that it uses for notifications. But that never really sat well with me.</p>
+<ul>
+<li>It&rsquo;s not really pronounceable (&ldquo;ess-emm-tee-pee-err&rdquo;?)</li>
+<li>What if I decided to use a different notification module?</li>
+<li>Is it going to be annoying trying to remember how many r&rsquo;s are at the end?</li>
+</ul>
+<p>I ended up naming it &ldquo;smtn&rdquo;. It&rsquo;s kind of an acronym for &ldquo;<strong>S</strong>imple <strong>M</strong>ail <strong>t</strong>o <strong>N</strong>otification&rdquo; and I pronounce it like &ldquo;smitten&rdquo;. I also wanted to keep it short and one word to resemble Go&rsquo;s module naming conventions.</p>
+<h3 id="a-smtp-server-an-smtp-server">A SMTP server? An SMTP server?</h3>
+<p>Which one of these is correct?</p>
+<ul>
+<li>&ldquo;A SMTP server&rdquo;</li>
+<li>&ldquo;An SMTP server&rdquo;</li>
+</ul>
+<p>Should the <em>a</em>/<em>an</em> match the expanded &ldquo;Simple Mail Transfer Protocol&rdquo; or should it match how you&rsquo;d pronounce the letters in &ldquo;SMTP&rdquo;?.</p>
+<p>TIL the difference between an acronym and an initialism:</p>
+<ul>
+<li>SMTP is an <em>initialism</em> - each letter is pronounced separately, like &ldquo;LGBT&rdquo; (does anyone pronounce SMTP as &ldquo;smittip&rdquo;?)</li>
+<li>smtn is an <em>acronym</em> - it&rsquo;s pronounced like a regular word, like &ldquo;NASA&rdquo;</li>
+</ul>
+<p>For initialisms, the <em>a</em> is supposed to match the pronuncation of the first letter. So &ldquo;<em>an</em> SMTP server&rdquo; is the correct answer here.</p>
+<p>With smtp-pushover, I sneakily avoided confusion by describing it as</p>
+<blockquote>
+<p>A <em>simple</em> SMTP server that forwards emails to Pushover</p></blockquote>
+<p>smtn confidently uses the <del>wrong</del> correct article since <a href="https://github.com/mattbun/smtn/releases/tag/v0.1.2">v0.1.2</a>:</p>
+<blockquote>
+<p>smtn is an SMTP server that forwards messages to one or more notification services</p></blockquote>
+
+  </main>
+  <footer>
+    <p>Copyright 2025 Matt Rathbun. Made with <a href="https://gohugo.io/"> Hugo </a> and <a href="https://0x96f.dev/theme">0x96f</a>.</p>
+
+  </footer>
+</body>
+</html>

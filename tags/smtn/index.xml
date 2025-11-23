@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>smtn on #!/matt/rathbun</title>
+    <link>/tags/smtn/</link>
+    <description>Recent content in smtn on #!/matt/rathbun</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
+    <lastBuildDate>Sun, 23 Nov 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/smtn/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>smtn</title>
+      <link>/posts/smtn/</link>
+      <pubDate>Sun, 23 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>/posts/smtn/</guid>
+      <description>&lt;p&gt;One of the unsung heroes of my personal Linux server setups is a simple Node.js application I wrote called &lt;a href=&#34;https://github.com/mattbun/smtp-pushover&#34;&gt;smtp-pushover&lt;/a&gt;. It&amp;rsquo;s a simple &lt;a href=&#34;https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol&#34;&gt;SMTP&lt;/a&gt; (email sending) server that forwards any email it receives to &lt;a href=&#34;https://pushover.net/&#34;&gt;Pushover&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;I recently rewrote it in Go and published the new version as &lt;a href=&#34;https://github.com/mattbun/smtn&#34;&gt;smtn&lt;/a&gt;. It supports other notification services now!&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
