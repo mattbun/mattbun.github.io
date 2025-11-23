@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>A New Hugo Theme | #!/matt/rathbun</title>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css">
+
+      <link rel="stylesheet" href="/css/colors.min.92abca9f41b52525c2ff2580c9f497515ac5dbff51933616a7596178d5f4d6de.css" integrity="sha256-kqvKn0G1JSXC/yWAyfSXUVrF2/9RkzYWp1lheNX01t4=" crossorigin="anonymous">
+      <link rel="stylesheet" href="/css/main.min.88edba46de268a85d5e454a937ada407a32f9054be4b10ce2e27bc80b0e7eac4.css" integrity="sha256-iO26Rt4mioXV5FSpN62kB6MvkFS&#43;SxDOLie8gLDn6sQ=" crossorigin="anonymous">
+      <link rel="stylesheet" href="/css/syntax.min.b840b9ed282a8d467cd5fb90af17571bda7b0cdcca46af05b6f2e9ac8b0377f9.css" integrity="sha256-uEC57SgqjUZ81fuQrxdXG9p7DNzKRq8FtvLprIsDd/k=" crossorigin="anonymous">
+
+
+</head>
+<body>
+  <header>
+    <div class="nav">
+  <a href="/" class="accent">#!/matt/rathbun</a>
+  <a href="/posts" class="left">/posts</a>
+
+  <a href="https://github.com/mattbun" class="right">github</a>
+</div>
+
+  </header>
+  <main>
+    
+  <h1>A New Hugo Theme</h1>
+
+  
+  
+  <time datetime="2025-07-20T00:00:00&#43;00:00">July 20, 2025</time>
+  |
+  
+    <a class="tag" href="/tags/meta/">#meta</a>
+    <a class="tag" href="/tags/nix/">#nix</a>
+
+
+  <br>
+  <br>
+  <p>Oh hi, it&rsquo;s been a while. What am I doing with this site again?</p>
+<p>I don&rsquo;t have a good answer for that right now. But maybe I&rsquo;m getting a little closer to knowing.</p>
+<p>I was recently reading some articles about the <a href="https://benhoyt.com/writings/the-small-web-is-beautiful/">&ldquo;small web&rdquo;</a> and it got me thinking about this site again. It inspired me to simplify it by writing my own theme. And of course, I made it all complicated again by bringing nix into another project.</p>
+<h2 id="creating-a-new-theme">Creating a new theme</h2>
+<p>I thought that creating a theme would be a huge effort, but I was surprised to find that it wasn&rsquo;t as hard as I thought it&rsquo;d be. First off, I&rsquo;m better at CSS than I realized! It&rsquo;s probably because of all the time I&rsquo;ve spent configuring my waybar theme.</p>
+<p>But also Hugo gives you a lot of helpful scaffolding when you create a new theme with</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo new theme my-theme-name
+</span></span></code></pre></div><p>And I was happy to find that Hugo can output the CSS of an existing syntax highlighting theme so I didn&rsquo;t have to write that from scratch either:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo gen chromastyles --style<span class="o">=</span>monokai &gt; syntax.css
+</span></span></code></pre></div><h2 id="inspiration-and-restrictions">Inspiration and Restrictions</h2>
+<p>I spend a <em>lot</em> of time working on my dotfiles. So I felt like it was only natural that my website should look similar to my neovim and waybar themes:</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center"><img src="/posts/another-new-start/sway.png" alt="sway screenshot"></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><em>A floating neovim window in glorious 1024x768 sway with waybar</em></td>
+      </tr>
+  </tbody>
+</table>
+<p>That meant that I followed the same guidelines I use for all the themes in my dotfiles:</p>
+<ul>
+<li>Only use 16 colors (from a base16 theme)</li>
+<li>Prefer not to use special characters so it works in a Linux TTY &ndash; I don&rsquo;t mind a few icons in graphical environments like sway or niri though</li>
+</ul>
+<p>In a way, I think this was a form of <a href="https://en.wikipedia.org/wiki/Creative_limitation">creative limitation</a>. Creating a theme sounds daunting because it&rsquo;s so open-ended, but with this goal and these restrictions it was so much more attainable. I spent significantly more of my time learning about HTML and CSS than obsessing over the look of it.</p>
+<h2 id="basix-for-base16-colors">Basix for base16 colors</h2>
+<p>In my dotfiles, I use <a href="https://github.com/NotAShelf/Basix">Basix</a> to expose base16 colorschemes as Nix attribute sets. I brought it into the build process of this site as well.</p>
+<p>I can switch the site to different base16 themes easily, just like in my dotfiles!</p>
+<p>Here it is with gruvbox-dark and a green accent color:</p>
+<p><img src="/posts/another-new-start/gruvbox-green.png" alt="gruvbox with green accent color"></p>
+<p>Here&rsquo;s my old favorite helios with a magenta accent color:</p>
+<p><img src="/posts/another-new-start/helios-magenta.png" alt="helios with magenta accent color"></p>
+<p>Do I change colorschemes often enough to justify making it work this way? Probably not. But it was fun to make.</p>
+<h3 id="under-the-hood">Under the hood</h3>
+<p>In my Hugo theme, I reference a <code>colors.css</code> file but the file is ephemeral. It doesn&rsquo;t exist when you clone the repository. It&rsquo;s even gitignored so it can&rsquo;t be accidentally committed. Nix generates the <code>colors.css</code> file based on a base16 color palette from Basix.</p>
+<p>In <code>flake.nix</code>, I initialize a <code>colorsCss</code> variable that contains the file contents that will be put into <code>colors.css</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl"><span class="k">let</span>
+</span></span><span class="line"><span class="cl">  <span class="n">palette</span> <span class="o">=</span> <span class="n">basix</span><span class="o">.</span><span class="n">schemeData</span><span class="o">.</span><span class="n">base16</span><span class="o">.</span><span class="s2">&#34;0x96f&#34;</span><span class="o">.</span><span class="n">palette</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="n">accent</span> <span class="o">=</span> <span class="n">palette</span><span class="o">.</span><span class="n">base09</span><span class="p">;</span> <span class="c1"># orange</span>
+</span></span><span class="line"><span class="cl">  <span class="n">accent-hover</span> <span class="o">=</span> <span class="n">palette</span><span class="o">.</span><span class="n">base0E</span><span class="p">;</span> <span class="c1"># magenta</span>
+</span></span><span class="line"><span class="cl">  <span class="n">bg</span> <span class="o">=</span> <span class="n">palette</span><span class="o">.</span><span class="n">base00</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fg</span> <span class="o">=</span> <span class="n">palette</span><span class="o">.</span><span class="n">base07</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="n">colorsCss</span> <span class="o">=</span> <span class="cm">/* css */</span> <span class="s1">&#39;&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">    :root {
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --base00: </span><span class="si">${</span><span class="n">palette</span><span class="o">.</span><span class="n">base00</span><span class="si">}</span><span class="s1">;
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --base01: </span><span class="si">${</span><span class="n">palette</span><span class="o">.</span><span class="n">base01</span><span class="si">}</span><span class="s1">;
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --base02: </span><span class="si">${</span><span class="n">palette</span><span class="o">.</span><span class="n">base02</span><span class="si">}</span><span class="s1">;
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --base03: </span><span class="si">${</span><span class="n">palette</span><span class="o">.</span><span class="n">base03</span><span class="si">}</span><span class="s1">;
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --base04: </span><span class="si">${</span><span class="n">palette</span><span class="o">.</span><span class="n">base04</span><span class="si">}</span><span class="s1">;
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --base05: </span><span class="si">${</span><span class="n">palette</span><span class="o">.</span><span class="n">base05</span><span class="si">}</span><span class="s1">;
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --base06: </span><span class="si">${</span><span class="n">palette</span><span class="o">.</span><span class="n">base06</span><span class="si">}</span><span class="s1">;
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --base07: </span><span class="si">${</span><span class="n">palette</span><span class="o">.</span><span class="n">base07</span><span class="si">}</span><span class="s1">;
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --base08: </span><span class="si">${</span><span class="n">palette</span><span class="o">.</span><span class="n">base08</span><span class="si">}</span><span class="s1">; /* red */
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --base09: </span><span class="si">${</span><span class="n">palette</span><span class="o">.</span><span class="n">base09</span><span class="si">}</span><span class="s1">; /* orange */
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --base0A: </span><span class="si">${</span><span class="n">palette</span><span class="o">.</span><span class="n">base0A</span><span class="si">}</span><span class="s1">; /* yellow */
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --base0B: </span><span class="si">${</span><span class="n">palette</span><span class="o">.</span><span class="n">base0B</span><span class="si">}</span><span class="s1">; /* green */
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --base0C: </span><span class="si">${</span><span class="n">palette</span><span class="o">.</span><span class="n">base0C</span><span class="si">}</span><span class="s1">; /* cyan */
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --base0D: </span><span class="si">${</span><span class="n">palette</span><span class="o">.</span><span class="n">base0D</span><span class="si">}</span><span class="s1">; /* blue */
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --base0E: </span><span class="si">${</span><span class="n">palette</span><span class="o">.</span><span class="n">base0E</span><span class="si">}</span><span class="s1">; /* magenta */
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --base0F: </span><span class="si">${</span><span class="n">palette</span><span class="o">.</span><span class="n">base0F</span><span class="si">}</span><span class="s1">; /* brown */
+</span></span></span><span class="line"><span class="cl"><span class="s1">  
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --main-bg-color: </span><span class="si">${</span><span class="n">bg</span><span class="si">}</span><span class="s1">;
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --main-text-color: </span><span class="si">${</span><span class="n">fg</span><span class="si">}</span><span class="s1">;
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --accent-color: </span><span class="si">${</span><span class="n">accent</span><span class="si">}</span><span class="s1">;
+</span></span></span><span class="line"><span class="cl"><span class="s1">      --accent-hover-color: </span><span class="si">${</span><span class="n">accent-hover</span><span class="si">}</span><span class="s1">;
+</span></span></span><span class="line"><span class="cl"><span class="s1">    }
+</span></span></span><span class="line"><span class="cl"><span class="s1">  &#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">in</span> <span class="c1"># ...</span>
+</span></span></code></pre></div><p>I have a package/derivation that builds the <code>colors.css</code> file:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl"><span class="n">packages</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="n">pkgs</span><span class="o">.</span><span class="n">stdenv</span><span class="o">.</span><span class="n">mkDerivation</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;mattbun.github.io/colors&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">src</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">buildInputs</span> <span class="o">=</span> <span class="n">buildInputs</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">buildPhase</span> <span class="o">=</span> <span class="s1">&#39;&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">    cp </span><span class="si">${</span><span class="n">pkgs</span><span class="o">.</span><span class="n">writeText</span> <span class="s2">&#34;colors.css&#34;</span> <span class="n">colorsCss</span><span class="si">}</span><span class="s1"> colors.css
+</span></span></span><span class="line"><span class="cl"><span class="s1">  &#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">installPhase</span> <span class="o">=</span> <span class="s2">&#34;cp colors.css $out&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>And there&rsquo;s a another (default) package that builds the whole site, including <code>colors.css</code>, that I use in GitHub Actions:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl"><span class="n">packages</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">pkgs</span><span class="o">.</span><span class="n">stdenv</span><span class="o">.</span><span class="n">mkDerivation</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;mattbun.github.io&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">src</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">buildInputs</span> <span class="o">=</span> <span class="n">buildInputs</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">buildPhase</span> <span class="o">=</span> <span class="s1">&#39;&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">    cp </span><span class="si">${</span><span class="n">pkgs</span><span class="o">.</span><span class="n">writeText</span> <span class="s2">&#34;colors.css&#34;</span> <span class="n">colorsCss</span><span class="si">}</span><span class="s1"> themes/dotfiles/assets/css/colors.css
+</span></span></span><span class="line"><span class="cl"><span class="s1">    </span><span class="si">${</span><span class="n">pkgs</span><span class="o">.</span><span class="n">hugo</span><span class="si">}</span><span class="s1">/bin/hugo
+</span></span></span><span class="line"><span class="cl"><span class="s1">    cp CNAME public/CNAME
+</span></span></span><span class="line"><span class="cl"><span class="s1">  &#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">installPhase</span> <span class="o">=</span> <span class="s2">&#34;cp -r public $out&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>To run the site locally, the <code>develop</code> make target has a dependency on the <code>colors.css</code> file. The <code>colors.css</code> target builds the <code>#colors</code> nix package to generate <code>colors.css</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-make" data-lang="make"><span class="line"><span class="cl"><span class="nf">develop</span><span class="o">:</span> <span class="n">themes</span>/<span class="n">dotfiles</span>/<span class="n">assets</span>/<span class="n">css</span>/<span class="n">colors</span>.<span class="n">css</span>
+</span></span><span class="line"><span class="cl">	nix develop --command hugo server -D --bind 0.0.0.0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">MAKEFLAGS</span> <span class="o">+=</span> --check-symlink-times
+</span></span><span class="line"><span class="cl"><span class="nf">themes/dotfiles/assets/css/colors.css</span><span class="o">:</span> <span class="n">flake</span>.<span class="n">nix</span> <span class="n">flake</span>.<span class="n">lock</span>
+</span></span><span class="line"><span class="cl">	nix build .#colors -o ./themes/dotfiles/assets/css/colors.css
+</span></span></code></pre></div><p><code>--check-symlink-times</code> is necessary to prevent it from always rebuilding <code>colors.css</code>. The <code>-o ./themes/dotfiles/assets/css/colors.css</code> flag instructs nix to <em>symbolic link</em> the built package directly at that path. By default, <code>make</code> will only look at the timestamp of the file that the link points to. In this case, it comes from the nix store which has a timestamp of zero.</p>
+<h2 id="closing-thoughts-what-am-i-doing-here">Closing thoughts, what am I doing here?</h2>
+<p>Ok I do have some ideas about what I want to do with the site moving forward. Some general goals:</p>
+<ul>
+<li>Write more short-form posts</li>
+<li>Don&rsquo;t get caught up in making every post perfect</li>
+<li>Maybe write about other hobbies or my personal life?</li>
+</ul>
+<p>We&rsquo;ll see how it goes!</p>
+<p>Or maybe I&rsquo;ll come back here in a couple years with another major rewrite of the site. At least it&rsquo;s been fun to build.</p>
+
+  </main>
+  <footer>
+    <p>Copyright 2025 Matt Rathbun. Made with <a href="https://gohugo.io/"> Hugo </a> and <a href="https://0x96f.dev/theme">0x96f</a>.</p>
+
+  </footer>
+</body>
+</html>

@@ -26,10 +26,16 @@
     <loc>/tags/</loc>
     <lastmod>2025-11-23T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/building-nixos-rpi-images/</loc>
-    <lastmod>2023-02-12T00:00:00+00:00</lastmod>
+    <loc>/posts/another-new-start/</loc>
+    <lastmod>2025-07-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/meta/</loc>
+    <lastmod>2025-07-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/nix/</loc>
+    <lastmod>2025-07-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/posts/building-nixos-rpi-images/</loc>
     <lastmod>2023-02-12T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/nixos/</loc>
@@ -84,9 +90,6 @@
     <lastmod>2020-10-03T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/hugo/</loc>
-    <lastmod>2020-10-03T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/meta/</loc>
     <lastmod>2020-10-03T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/posts/switching-to-hugo/</loc>
