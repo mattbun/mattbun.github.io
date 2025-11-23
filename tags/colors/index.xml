@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>colors on #!/matt/rathbun</title>
+    <link>/tags/colors/</link>
+    <description>Recent content in colors on #!/matt/rathbun</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
+    <lastBuildDate>Sun, 20 Jul 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/colors/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A New Hugo Theme</title>
+      <link>/posts/another-new-start/</link>
+      <pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>/posts/another-new-start/</guid>
+      <description>&lt;p&gt;Oh hi, it&amp;rsquo;s been a while. What am I doing with this site again?&lt;/p&gt;&#xA;&lt;p&gt;I don&amp;rsquo;t have a good answer for that right now. But maybe I&amp;rsquo;m getting a little closer to knowing.&lt;/p&gt;&#xA;&lt;p&gt;I was recently reading some articles about the &lt;a href=&#34;https://benhoyt.com/writings/the-small-web-is-beautiful/&#34;&gt;&amp;ldquo;small web&amp;rdquo;&lt;/a&gt; and it got me thinking about this site again. It inspired me to simplify it by writing my own theme. And of course, I made it all complicated again by bringing nix into another project.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -38,6 +38,20 @@
       <description></description>
     </item>
     <item>
+      <title>colors</title>
+      <link>/tags/colors/</link>
+      <pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/colors/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>hugo</title>
+      <link>/tags/hugo/</link>
+      <pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/hugo/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>meta</title>
       <link>/tags/meta/</link>
       <pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate>
@@ -133,13 +147,6 @@
       <link>/tags/github-actions/</link>
       <pubDate>Sat, 03 Oct 2020 00:00:00 +0000</pubDate>
       <guid>/tags/github-actions/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>hugo</title>
-      <link>/tags/hugo/</link>
-      <pubDate>Sat, 03 Oct 2020 00:00:00 +0000</pubDate>
-      <guid>/tags/hugo/</guid>
       <description></description>
     </item>
     <item>
