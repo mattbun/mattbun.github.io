@@ -9,7 +9,7 @@ tags:
   - linux
 ---
 
-One of the unsung heroes of my personal Linux server setups is a simple Node.js application I wrote called [smtp-pushover](https://github.com/mattbun/smtp-pushover). It's a simple [SMTP](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) (email sending) server that forwards any email it receives to [Pushover](https://pushover.net/).
+One of the unsung heroes of my personal Linux server setups is a simple Node.js application I wrote called [smtp-pushover](https://github.com/mattbun/smtp-pushover). It's an [SMTP](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) (email sending) server that forwards any email it receives to [Pushover](https://pushover.net/).
 
 I recently rewrote it in Go and published the new version as [smtn](https://github.com/mattbun/smtn). It supports other notification services now!
 
