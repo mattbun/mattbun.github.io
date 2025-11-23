@@ -5,6 +5,8 @@ slug: "another-new-start"
 tags:
   - meta
   - nix
+  - hugo
+  - colors
 ---
 
 Oh hi, it's been a while. What am I doing with this site again?
