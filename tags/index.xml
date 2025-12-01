@@ -7,12 +7,61 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>&amp;copy; 2020 Matt Rathbun</copyright>
-    <lastBuildDate>Sun, 12 Feb 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 23 Nov 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>go</title>
+      <link>/tags/go/</link>
+      <pubDate>Sun, 23 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/go/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>linux</title>
+      <link>/tags/linux/</link>
+      <pubDate>Sun, 23 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/linux/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>smtn</title>
+      <link>/tags/smtn/</link>
+      <pubDate>Sun, 23 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/smtn/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>smtp-pushover</title>
+      <link>/tags/smtp-pushover/</link>
+      <pubDate>Sun, 23 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/smtp-pushover/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>colors</title>
+      <link>/tags/colors/</link>
+      <pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/colors/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>hugo</title>
+      <link>/tags/hugo/</link>
+      <pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/hugo/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>meta</title>
+      <link>/tags/meta/</link>
+      <pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/meta/</guid>
+      <description></description>
+    </item>
     <item>
       <title>nix</title>
       <link>/tags/nix/</link>
-      <pubDate>Sun, 12 Feb 2023 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate>
       <guid>/tags/nix/</guid>
       <description></description>
     </item>
@@ -66,13 +115,6 @@
       <description></description>
     </item>
     <item>
-      <title>linux</title>
-      <link>/tags/linux/</link>
-      <pubDate>Tue, 04 Oct 2022 00:00:00 +0000</pubDate>
-      <guid>/tags/linux/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>dependabot</title>
       <link>/tags/dependabot/</link>
       <pubDate>Sat, 19 Jun 2021 00:00:00 +0000</pubDate>
@@ -105,20 +147,6 @@
       <link>/tags/github-actions/</link>
       <pubDate>Sat, 03 Oct 2020 00:00:00 +0000</pubDate>
       <guid>/tags/github-actions/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>hugo</title>
-      <link>/tags/hugo/</link>
-      <pubDate>Sat, 03 Oct 2020 00:00:00 +0000</pubDate>
-      <guid>/tags/hugo/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>meta</title>
-      <link>/tags/meta/</link>
-      <pubDate>Sat, 03 Oct 2020 00:00:00 +0000</pubDate>
-      <guid>/tags/meta/</guid>
       <description></description>
     </item>
     <item>
